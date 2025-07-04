@@ -183,7 +183,6 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span className="flex items-center">
-                <span className="mr-2">📊</span>
                 Analysis Results
               </span>
               <Badge className={getConfidenceBadgeVariant(result.confidence)}>

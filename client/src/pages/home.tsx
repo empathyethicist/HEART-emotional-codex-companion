@@ -47,7 +47,6 @@ export default function Home() {
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
                     <span className="flex items-center">
-                      <span className="mr-2">📝</span>
                       Emotion Input
                     </span>
                   </TabsTrigger>
@@ -56,7 +55,6 @@ export default function Home() {
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
                     <span className="flex items-center">
-                      <span className="mr-2">📚</span>
                       Codex Browser
                     </span>
                   </TabsTrigger>
@@ -65,7 +63,6 @@ export default function Home() {
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
                     <span className="flex items-center">
-                      <span className="mr-2">➕</span>
                       Manual Entry
                     </span>
                   </TabsTrigger>
@@ -74,7 +71,6 @@ export default function Home() {
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
                     <span className="flex items-center">
-                      <span className="mr-2">🧠</span>
                       CIP Evaluator
                     </span>
                   </TabsTrigger>
@@ -83,7 +79,6 @@ export default function Home() {
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
                     <span className="flex items-center">
-                      <span className="mr-2">📥</span>
                       Export & Save
                     </span>
                   </TabsTrigger>
