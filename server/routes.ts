@@ -13,6 +13,7 @@ import { generateEmid } from "./utils/emid-generator";
 import { codexPopulator } from "./services/codex-populator";
 import { variantExpander } from "./services/variant-expander";
 import { cipRubricService } from "./services/cip-rubric";
+import { codexIntegrationService } from "./services/codex-integration";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -353,6 +354,74 @@ EMID: ${exportData.emid}`;
           : "Emotion requires refinement before inclusion",
         heartAlignment: cipScore.totalScore >= 7.0
       });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Integrate CIP-validated emotion into active codex
+  app.post("/api/emotions/integrate", async (req, res) => {
+    try {
+      const { emotionName, description, culturalContext, triggers, forceIntegration } = req.body;
+      
+      if (!emotionName || !description) {
+        return res.status(400).json({ message: "Emotion name and description are required" });
+      }
+
+      const result = await codexIntegrationService.validateAndIntegrateEmotion(
+        emotionName,
+        description,
+        culturalContext || "Universal",
+        triggers || [],
+        forceIntegration || false
+      );
+
+      if (result.success) {
+        res.json({
+          message: result.message,
+          referenceCode: result.referenceCode,
+          emotionEntry: result.emotionEntry,
+          cipScore: result.cipScore,
+          esdmAnalysis: result.esdmAnalysis
+        });
+      } else {
+        res.status(400).json({
+          message: result.message,
+          cipScore: result.cipScore,
+          esdmAnalysis: result.esdmAnalysis
+        });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get integration suggestions for improving CIP scores
+  app.post("/api/emotions/improve", async (req, res) => {
+    try {
+      const { emotionName, description, cipScore } = req.body;
+      
+      if (!emotionName || !description || !cipScore) {
+        return res.status(400).json({ message: "Emotion name, description, and CIP score are required" });
+      }
+
+      const suggestions = await codexIntegrationService.suggestEmotionImprovements(
+        emotionName,
+        description,
+        cipScore
+      );
+
+      res.json(suggestions);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get integration history
+  app.get("/api/emotions/integration-history", async (req, res) => {
+    try {
+      const history = await codexIntegrationService.getIntegrationHistory();
+      res.json(history);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
