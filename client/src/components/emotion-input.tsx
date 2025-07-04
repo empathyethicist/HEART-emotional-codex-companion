@@ -169,7 +169,7 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
                 ) : (
                   <>
                     <Search className="mr-2 h-4 w-4" />
-                    Process Emotion
+                    Process
                   </>
                 )}
               </Button>
