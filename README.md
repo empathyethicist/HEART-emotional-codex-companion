@@ -33,16 +33,16 @@ The Codex ensures AI systems:
 
 ---
 
-## 📂 Repository Structure
-emotion_families.yaml # Core emotion definitions
-blend_map.yaml # Supported emotional blends
-sal_triggers.yaml # Symbolic logic triggers for ambiguity or suppression
-/cultural_mappings/
-└── profiles/
-├── default.yaml
-├── russian.yaml
-├── spanish.yaml
-└── ...
+📁 HEART-emotional-codex-companion/
+├── emotion_families.yaml        # Core emotion families and variants
+├── blend_map.yaml               # Defined emotional blend relationships
+├── sal_triggers.yaml            # Symbolic Anchoring Logic (SAL) triggers for ambiguity/suppression
+└── cultural_mappings/
+    └── profiles/
+        ├── default.yaml         # Baseline cultural profile (neutral/global)
+        ├── russian.yaml         # Russian expression mapping
+        ├── spanish.yaml         # Spanish expression mapping
+        └── ...                  # Additional language/culture profiles
 
 ---
 
