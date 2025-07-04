@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckCircle, XCircle, BarChart3, Brain, Loader2 } from "lucide-react";
+import { CheckCircle, XCircle, BarChart3, Brain, Loader2, Plus, Lightbulb, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
@@ -41,7 +41,10 @@ interface EvaluationResult {
 
 export default function CIPEvaluator() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [evaluationResult, setEvaluationResult] = useState<EvaluationResult | null>(null);
+  const [currentFormData, setCurrentFormData] = useState<FormData | null>(null);
+  const [improvementSuggestions, setImprovementSuggestions] = useState<any>(null);
 
   const form = useForm<FormData>({
     resolver: zodResolver(cipEvaluationSchema),
@@ -85,7 +88,75 @@ export default function CIPEvaluator() {
     },
   });
 
+  // Integration mutation
+  const integrateMutation = useMutation({
+    mutationFn: async (data: { forceIntegration?: boolean }) => {
+      if (!currentFormData) throw new Error("No evaluation data available");
+      
+      const response = await fetch("/api/emotions/integrate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...currentFormData,
+          triggers: currentFormData.triggers.split(',').map(t => t.trim()).filter(Boolean),
+          forceIntegration: data.forceIntegration || false
+        })
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Integration Successful!",
+        description: `Emotion added to codex with reference ${data.referenceCode}`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/emotions/codex"] });
+      setEvaluationResult(null);
+      setCurrentFormData(null);
+      form.reset();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Integration Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Improvement suggestions mutation
+  const improveMutation = useMutation({
+    mutationFn: async () => {
+      if (!currentFormData || !evaluationResult) throw new Error("No evaluation data available");
+      
+      const response = await fetch("/api/emotions/improve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          emotionName: currentFormData.emotionName,
+          description: currentFormData.description,
+          cipScore: evaluationResult.cipScore
+        })
+      });
+      
+      if (!response.ok) throw new Error("Failed to get suggestions");
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      setImprovementSuggestions(data);
+      toast({
+        title: "Improvement Suggestions Generated",
+        description: `Found ${data.suggestions.length} suggestions to enhance CIP score`,
+      });
+    },
+  });
+
   const onSubmit = (data: FormData) => {
+    setCurrentFormData(data);
     evaluateMutation.mutate(data);
   };
 
@@ -301,6 +372,66 @@ export default function CIPEvaluator() {
                 {evaluationResult.recommendation}
               </div>
               <Progress value={evaluationResult.cipScore.totalScore * 10} className="max-w-md mx-auto" />
+              
+              {/* Integration Actions */}
+              <div className="flex flex-wrap gap-3 justify-center mt-4">
+                {evaluationResult.heartAlignment ? (
+                  <Button 
+                    onClick={() => integrateMutation.mutate({})}
+                    disabled={integrateMutation.isPending}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    {integrateMutation.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Integrating...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add to Codex
+                      </>
+                    )}
+                  </Button>
+                ) : (
+                  <>
+                    <Button 
+                      onClick={() => improveMutation.mutate()}
+                      disabled={improveMutation.isPending}
+                      variant="outline"
+                    >
+                      {improveMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <Lightbulb className="mr-2 h-4 w-4" />
+                          Get Suggestions
+                        </>
+                      )}
+                    </Button>
+                    <Button 
+                      onClick={() => integrateMutation.mutate({ forceIntegration: true })}
+                      disabled={integrateMutation.isPending}
+                      variant="destructive"
+                    >
+                      {integrateMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Force Adding...
+                        </>
+                      ) : (
+                        <>
+                          <ArrowRight className="mr-2 h-4 w-4" />
+                          Force Add
+                        </>
+                      )}
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* ESDM Deconstruction */}
@@ -344,6 +475,66 @@ export default function CIPEvaluator() {
                   ))}
                 </div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Improvement Suggestions */}
+      {improvementSuggestions && (
+        <Card className="w-full max-w-4xl">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Lightbulb className="mr-2 h-5 w-5" />
+              CIP Improvement Suggestions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <h4 className="font-semibold">Recommendations to Improve CIP Score:</h4>
+              <ul className="space-y-2">
+                {improvementSuggestions.suggestions.map((suggestion: string, index: number) => (
+                  <li key={index} className="flex items-start space-x-2">
+                    <ArrowRight className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">{suggestion}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {improvementSuggestions.improvedDescription && (
+              <div className="space-y-2">
+                <h4 className="font-semibold">Enhanced Description:</h4>
+                <div className="p-3 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <p className="text-sm">{improvementSuggestions.improvedDescription}</p>
+                </div>
+              </div>
+            )}
+
+            {improvementSuggestions.additionalTriggers && improvementSuggestions.additionalTriggers.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="font-semibold">Suggested Additional Triggers:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {improvementSuggestions.additionalTriggers.map((trigger: string, index: number) => (
+                    <Badge key={index} variant="outline">{trigger}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="pt-4 border-t">
+              <Button 
+                onClick={() => {
+                  setImprovementSuggestions(null);
+                  // Optionally pre-fill form with improved data
+                  if (improvementSuggestions.improvedDescription) {
+                    form.setValue('description', improvementSuggestions.improvedDescription);
+                  }
+                }}
+                className="w-full"
+              >
+                Apply Suggestions & Re-evaluate
+              </Button>
             </div>
           </CardContent>
         </Card>
