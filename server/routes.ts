@@ -14,6 +14,8 @@ import { codexPopulator } from "./services/codex-populator";
 import { variantExpander } from "./services/variant-expander";
 import { cipRubricService } from "./services/cip-rubric";
 import { codexIntegrationService } from "./services/codex-integration";
+import { toneClassifierService } from "./services/tone-classifier";
+import { culturalExpressionModifierService } from "./services/cultural-expression-modifier";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -435,6 +437,69 @@ EMID: ${exportData.emid}`;
         .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
         .slice(0, 10);
       res.json(recent);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Advanced tone analysis endpoint
+  app.post("/api/emotions/tone-analysis", async (req, res) => {
+    try {
+      const { inputPhrase, emotionFamily, culturalContext, intensity } = req.body;
+      
+      if (!inputPhrase || !emotionFamily) {
+        return res.status(400).json({ message: "Input phrase and emotion family are required" });
+      }
+
+      const toneAnalysis = toneClassifierService.analyzeTone(
+        inputPhrase,
+        emotionFamily,
+        culturalContext || "Universal",
+        intensity || 0.5
+      );
+
+      res.json(toneAnalysis);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Cultural expression analysis endpoint
+  app.post("/api/emotions/cultural-analysis", async (req, res) => {
+    try {
+      const { inputPhrase, emotionFamily, culturalContext } = req.body;
+      
+      if (!inputPhrase || !emotionFamily) {
+        return res.status(400).json({ message: "Input phrase and emotion family are required" });
+      }
+
+      const culturalAnalysis = culturalExpressionModifierService.analyzeCulturalExpression(
+        inputPhrase,
+        emotionFamily,
+        culturalContext
+      );
+
+      res.json(culturalAnalysis);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get available tone codes
+  app.get("/api/emotions/tone-codes", async (req, res) => {
+    try {
+      const toneCodes = toneClassifierService.getAllToneCodes();
+      res.json(toneCodes);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get cultural profiles
+  app.get("/api/emotions/cultural-profiles", async (req, res) => {
+    try {
+      const profiles = culturalExpressionModifierService.getAllCulturalProfiles();
+      res.json(profiles);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
