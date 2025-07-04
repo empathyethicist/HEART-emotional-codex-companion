@@ -1,0 +1,637 @@
+# Emotion Families
+emotion_families:
+
+  - name: Joy
+    code: FAM-JOY
+    variants:
+      - name: Euphoria
+        code: VAR-JOY-01
+        aliases:
+          - euphoria
+          - euphoric
+          - ecstatic
+          - elated
+      - name: Contentment
+        code: VAR-JOY-02
+        aliases:
+          - content
+          - contentment
+          - satisfied
+          - at peace
+      - name: Excitement
+        code: VAR-JOY-03
+        aliases:
+          - excited
+          - excitement
+          - thrilled
+          - hyped
+      - name: Joyful Peace
+        code: VAR-JOY-06
+        aliases:
+          - peaceful joy
+          - serene joy
+          - calm happiness
+      - name: Exuberance
+        code: VAR-JOY-07
+        aliases:
+          - exuberant
+          - overflowing joy
+          - joy
+          - so happy
+      - name: Relief
+        code: VAR-JOY-09
+        aliases:
+          - relief
+          - relieved
+          - sense of relief
+      - name: Optimism
+        code: VAR-JOY-10
+        aliases:
+          - optimistic
+          - optimism
+          - hopeful joy
+      - name: Pride
+        code: VAR-JOY-11
+        aliases:
+          - proud
+          - pride
+          - feeling proud
+
+  - name: Sadness
+    code: FAM-SAD
+    variants:
+      - name: Grief
+        code: VAR-SAD-01
+        aliases:
+          - grief
+          - grieving
+          - deep sorrow
+      - name: Melancholy
+        code: VAR-SAD-02
+        aliases:
+          - melancholy
+          - wistful
+          - blue
+      - name: Disappointment
+        code: VAR-SAD-03
+        aliases:
+          - disappointed
+          - disappointment
+          - let down
+      - name: Coping Sadness
+        code: VAR-SAD-06
+        aliases:
+          - managing sadness
+          - handling sadness
+      - name: Hopelessness
+        code: VAR-SAD-07
+        aliases:
+          - hopeless
+          - no hope
+          - giving up
+      - name: Remorse
+        code: VAR-SAD-08
+        aliases:
+          - remorseful
+          - remorse
+          - regret
+
+  - name: Anger
+    code: FAM-ANG
+    variants:
+      - name: Frustration
+        code: VAR-ANG-01
+        aliases:
+          - frustrated
+          - frustration
+          - annoyed
+      - name: Rage
+        code: VAR-ANG-02
+        aliases:
+          - rage
+          - furious
+          - enraged
+      - name: Irritation
+        code: VAR-ANG-03
+        aliases:
+          - irritated
+          - irritation
+          - bugged
+      - name: Annoyance
+        code: VAR-ANG-04
+        aliases:
+          - annoyed
+          - annoyance
+      - name: Disapproval
+        code: VAR-ANG-05
+        aliases:
+          - disapproval
+          - disapproving
+          - judgmental
+
+  - name: Fear
+    code: FAM-FEA
+    variants:
+      - name: Anxiety
+        code: VAR-FEA-01
+        aliases:
+          - anxious
+          - anxiety
+          - nervous
+      - name: Panic
+        code: VAR-FEA-02
+        aliases:
+          - panic
+          - panicked
+          - freaking out
+      - name: Terror
+        code: VAR-FEA-03
+        aliases:
+          - terror
+          - terrified
+          - horror
+      - name: Uncertainty
+        code: VAR-FEA-06
+        aliases:
+          - uncertain
+          - not sure
+          - indecisive
+      - name: Dread
+        code: VAR-FEA-07
+        aliases:
+          - dread
+          - dreading
+      - name: Nervousness
+        code: VAR-FEA-08
+        aliases:
+          - nervous
+          - uneasy
+      - name: Confusion
+        code: VAR-FEA-09
+        aliases:
+          - confused
+          - unsure
+          - puzzled
+
+  - name: Love
+    code: FAM-LOV
+    variants:
+      - name: Affection
+        code: VAR-LOV-01
+        aliases:
+          - affection
+          - affectionate
+          - fond
+      - name: Compassion
+        code: VAR-LOV-02
+        aliases:
+          - compassionate
+          - compassion
+          - caring
+      - name: Passion
+        code: VAR-LOV-03
+        aliases:
+          - passion
+          - passionate
+          - desire
+      - name: Longing Love
+        code: VAR-LOV-08
+        aliases:
+          - longing
+          - yearning
+          - missing someone
+      - name: Caring
+        code: VAR-LOV-09
+        aliases:
+          - caring
+          - care
+      - name: Desire
+        code: VAR-LOV-10
+        aliases:
+          - desire
+          - wanting
+      - name: Gratitude
+        code: VAR-LOV-11
+        aliases:
+          - grateful
+          - gratitude
+          - thankful
+      - name: Admiration
+        code: VAR-LOV-12
+        aliases:
+          - admiration
+          - admire
+          - respecting
+      - name: Approval
+        code: VAR-LOV-13
+        aliases:
+          - approval
+          - approving
+  - name: Disgust
+    code: FAM-DISG
+    variants:
+      - name: Disgust
+        code: VAR-DISG-01
+        aliases:
+          - disgust
+          - gross
+          - yuck
+      - name: Revulsion
+        code: VAR-DISG-02
+        aliases:
+          - revulsion
+          - revolted
+      - name: Contempt
+        code: VAR-DISG-03
+        aliases:
+          - contempt
+          - contemptuous
+      - name: Nausea
+        code: VAR-DISG-04
+        aliases:
+          - nauseated
+          - nausea
+          - sick to stomach
+      - name: Disdain
+        code: VAR-DISG-05
+        aliases:
+          - disdain
+          - disdainful
+
+  - name: Curiosity
+    code: FAM-CUR
+    variants:
+      - name: Curiosity
+        code: VAR-CUR-01
+        aliases:
+          - curious
+          - curiosity
+          - wondering
+      - name: Intrigue
+        code: VAR-CUR-02
+        aliases:
+          - intrigued
+          - intrigue
+      - name: Obsession
+        code: VAR-CUR-03
+        aliases:
+          - obsessed
+          - obsession
+      - name: Wonder
+        code: VAR-CUR-04
+        aliases:
+          - wonder
+          - amazed
+      - name: Skepticism
+        code: VAR-CUR-05
+        aliases:
+          - skeptical
+          - doubt
+
+  - name: Guilt
+    code: FAM-GUI
+    variants:
+      - name: Remorse
+        code: VAR-GUI-01
+        aliases:
+          - remorse
+          - remorseful
+      - name: Regret
+        code: VAR-GUI-02
+        aliases:
+          - regret
+          - regretting
+      - name: Self-Reproach
+        code: VAR-GUI-03
+        aliases:
+          - self-blame
+          - blaming self
+      - name: Responsibility Guilt
+        code: VAR-GUI-04
+        aliases:
+          - guilt
+          - guilty
+          - feeling responsible
+      - name: Reparative Guilt
+        code: VAR-GUI-05
+        aliases:
+          - need to make amends
+          - seeking forgiveness
+
+  - name: Shame
+    code: FAM-SHA
+    variants:
+      - name: Embarrassment
+        code: VAR-SHA-01
+        aliases:
+          - embarrassed
+          - embarrassment
+          - blushing
+      - name: Humiliation
+        code: VAR-SHA-02
+        aliases:
+          - humiliated
+          - humiliation
+      - name: Worthlessness
+        code: VAR-SHA-03
+        aliases:
+          - worthless
+          - unworthy
+      - name: Social Shame
+        code: VAR-SHA-04
+        aliases:
+          - public shame
+          - socially shamed
+      - name: Internalized Shame
+        code: VAR-SHA-05
+        aliases:
+          - internalized shame
+          - deep shame
+
+  - name: Surprise
+    code: FAM-SUR
+    variants:
+      - name: Surprise
+        code: VAR-SUR-01
+        aliases:
+          - surprised
+          - surprise
+          - wow
+      - name: Realization
+        code: VAR-SUR-02
+        aliases:
+          - realization
+          - realizing
+      - name: Amazement
+        code: VAR-SUR-03
+        aliases:
+          - amazed
+          - amazement
+      - name: Startle
+        code: VAR-SUR-04
+        aliases:
+          - startled
+          - startle
+      - name: Shock
+        code: VAR-SUR-05
+        aliases:
+          - shocked
+          - shocking
+
+  - name: Playfulness
+    code: FAM-PLA
+    variants:
+      - name: Amusement
+        code: VAR-PLA-01
+        aliases:
+          - amused
+          - amusement
+      - name: Humor
+        code: VAR-PLA-02
+        aliases:
+          - funny
+          - humor
+          - laughing
+      - name: Teasing
+        code: VAR-PLA-03
+        aliases:
+          - teasing
+          - tease
+      - name: Imaginative Play
+        code: VAR-PLA-04
+        aliases:
+          - playing
+          - pretend play
+      - name: Lightheartedness
+        code: VAR-PLA-05
+        aliases:
+          - lighthearted
+          - carefree
+
+  - name: Trust
+    code: FAM-TRU
+    variants:
+      - name: Trust
+        code: VAR-TRU-01
+        aliases:
+          - trust
+          - trusting
+      - name: Comfort
+        code: VAR-TRU-02
+        aliases:
+          - comforted
+          - comforting
+          - comfort
+      - name: Faith
+        code: VAR-TRU-03
+        aliases:
+          - faith
+          - believing
+      - name: Loyalty
+        code: VAR-TRU-04
+        aliases:
+          - loyal
+          - loyalty
+      - name: Security
+        code: VAR-TRU-05
+        aliases:
+          - secure
+          - safe
+          - security
+
+  - name: Hope
+    code: FAM-HOP
+    variants:
+      - name: Hope
+        code: VAR-HOP-01
+        aliases:
+          - hope
+          - hopeful
+      - name: Optimism
+        code: VAR-HOP-02
+        aliases:
+          - optimism
+          - optimistic
+      - name: Anticipation
+        code: VAR-HOP-03
+        aliases:
+          - anticipation
+          - anticipating
+      - name: Faith in Others
+        code: VAR-HOP-04
+        aliases:
+          - faith in others
+          - trust in others
+      - name: Visionary Hope
+        code: VAR-HOP-05
+        aliases:
+          - visionary
+          - visionary hope
+
+  - name: Grief
+    code: FAM-GRI
+    variants:
+      - name: Grief
+        code: VAR-GRI-01
+        aliases:
+          - grief
+          - grieving
+          - deep sorrow
+      - name: Bereavement
+        code: VAR-GRI-02
+        aliases:
+          - bereavement
+          - mourning
+          - mourning a loss
+      - name: Nostalgic Grief
+        code: VAR-GRI-03
+        aliases:
+          - nostalgic grief
+          - missing the past
+      - name: Anticipatory Grief
+        code: VAR-GRI-04
+        aliases:
+          - anticipatory grief
+          - grief before loss
+      - name: Collective Grief
+        code: VAR-GRI-05
+        aliases:
+          - collective grief
+          - shared grief
+
+
+  - name: Helplessness
+    code: FAM-HEL
+    variants:
+    - name: Powerlessness
+      code: VAR-HEL-01
+      aliases:
+        - powerless
+        - "I feel powerless"
+        - "no power"
+        - "can't change anything"
+    - name: Futility
+      code: VAR-HEL-02
+      aliases:
+        - futility
+        - "nothing changes"
+        - "what’s the point"
+        - "why bother"
+    - name: Entrapment
+      code: VAR-HEL-03
+      aliases:
+        - trapped
+        - stuck
+        - "no way out"
+        - "going in circles"
+    - name: Overwhelm
+      code: VAR-HEL-04
+      aliases:
+        - overwhelmed
+        - "too much"
+        - "drowning in problems"
+        - "everything is just too much"
+    - name: Exhaustion
+      code: VAR-HEL-05
+      aliases:
+        - exhausted
+        - "no strength"
+        - "can't deal anymore"
+        - "don’t know what to do anymore"
+    - name: Resignation
+      code: VAR-HEL-06
+      aliases:
+        - resigned
+        - hopeless
+        - "it’s hopeless"
+        - "nothing I do seems to matter"
+    - name: Isolation
+      code: VAR-HEL-07
+      aliases:
+        - isolated
+        - "no one is listening"
+        - alone
+        - unheard
+    - name: Overload
+      code: VAR-HEL-08
+      aliases:
+        - overloaded
+        - "too much right now"
+        - overwhelmed
+        - stressed out
+
+  - name: Loneliness
+    code: FAM-LON
+    variants:
+    - name: Crowded Isolation
+      code: VAR-LON-01
+      aliases:
+        - "so alone, even in a crowded room"
+        - "alone in a crowded room"
+        - "crowded isolation"
+    - name: Emotional Isolation
+      code: VAR-LON-02
+      aliases:
+        - "no one seems to understand how lonely I truly am"
+        - "no one seems to understand"
+        - "emotional isolation"
+    - name: Desire for Connection
+      code: VAR-LON-03
+      aliases:
+        - "I wish I had someone to talk to right now"
+        - "someone to talk to right now"
+        - "desire for connection"
+    - name: Social Invisibility
+      code: VAR-LON-04
+      aliases:
+        - "it feels like I’m invisible to everyone around me"
+        - "invisible to everyone"
+        - "social invisibility"
+    - name: Longing for Care
+      code: VAR-LON-05
+      aliases:
+        - "I miss having someone who cares about me"
+        - "miss having someone who cares"
+        - "longing for care"
+    - name: Anticipatory Loneliness
+      code: VAR-LON-06
+      aliases:
+        - "I spend my evenings wishing someone would call"
+        - "wishing someone would call"
+        - "anticipatory loneliness"
+    - name: Mind Companionship
+      code: VAR-LON-07
+      aliases:
+        - "even my own thoughts feel like company now"
+        - "thoughts feel like company"
+        - "mind companionship"
+    - name: Neglected Presence
+      code: VAR-LON-08
+      aliases:
+        - "I feel like no one notices when I’m not around"
+        - "no one notices when I’m not around"
+        - "neglected presence"
+    - name: Disconnected
+      code: VAR-LON-09
+      aliases:
+        - "sometimes I don’t feel connected to anyone"
+        - "don’t feel connected to anyone"
+        - "disconnected loneliness"
+    - name: Hopeful Loneliness
+      code: VAR-LON-10
+      aliases:
+        - "I keep waiting for someone to reach out to me"
+        - "waiting for someone to reach out"
+        - "hopeful but lonely"
+    - name: Companionship Longing
+      code: VAR-LON-11
+      aliases:
+        - "my heart aches for companionship"
+        - "heart aches for companionship"
+        - "companionship longing"
+    - name: Internal Solitude
+      code: VAR-LON-12
+      aliases:
+        - "I feel like I’m all by myself, even when I’m not"
+        - "all by myself, even when I’m not"
+        - "internal solitude"

@@ -112,6 +112,98 @@ export class MemStorage implements IStorage {
           high: ["furious", "enraged", "livid"]
         },
         createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "LON-001",
+        emotionFamily: "LONELINESS",
+        variant: "Loneliness",
+        definition: "A complex emotional state characterized by feelings of isolation, disconnection, and desire for meaningful social connection",
+        intensityMin: 20,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "LON-002": { name: "Crowded Isolation", intensity_range: [60, 90] },
+          "LON-003": { name: "Emotional Isolation", intensity_range: [50, 80] },
+          "LON-004": { name: "Social Invisibility", intensity_range: [40, 70] }
+        },
+        blendableWith: ["SAD-001", "HEL-001", "FEA-001"],
+        triggers: ["isolation", "rejection", "misunderstanding", "abandonment", "disconnection"],
+        intensityMarkers: {
+          low: ["alone", "disconnected", "isolated"],
+          medium: ["lonely", "forgotten", "invisible"],
+          high: ["utterly alone", "completely isolated", "abandoned"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "HEL-001",
+        emotionFamily: "HELPLESSNESS",
+        variant: "Helplessness",
+        definition: "A state of powerlessness and perceived inability to control or influence one's circumstances",
+        intensityMin: 30,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "HEL-002": { name: "Powerlessness", intensity_range: [60, 100] },
+          "HEL-003": { name: "Overwhelm", intensity_range: [50, 90] },
+          "HEL-004": { name: "Entrapment", intensity_range: [40, 80] }
+        },
+        blendableWith: ["FEA-001", "SAD-001", "LON-001"],
+        triggers: ["overwhelming", "trapped", "powerless", "stuck", "no control"],
+        intensityMarkers: {
+          low: ["stuck", "limited", "constrained"],
+          medium: ["powerless", "overwhelmed", "trapped"],
+          high: ["completely helpless", "utterly powerless", "drowning"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "SAD-001",
+        emotionFamily: "SADNESS",
+        variant: "Sadness",
+        definition: "A negative emotional state characterized by feelings of sorrow, loss, and emotional pain",
+        intensityMin: 20,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "SAD-002": { name: "Grief", intensity_range: [70, 100] },
+          "SAD-003": { name: "Melancholy", intensity_range: [30, 60] },
+          "SAD-004": { name: "Disappointment", intensity_range: [20, 50] }
+        },
+        blendableWith: ["FEA-001", "LON-001", "GUI-001"],
+        triggers: ["loss", "rejection", "failure", "separation", "disappointment"],
+        intensityMarkers: {
+          low: ["blue", "down", "disappointed"],
+          medium: ["sad", "sorrowful", "melancholy"],
+          high: ["devastated", "heartbroken", "grief-stricken"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "LOV-001",
+        emotionFamily: "LOVE",
+        variant: "Love",
+        definition: "A deep emotional attachment characterized by affection, care, and connection to others",
+        intensityMin: 30,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "LOV-002": { name: "Affection", intensity_range: [30, 70] },
+          "LOV-003": { name: "Compassion", intensity_range: [40, 80] },
+          "LOV-004": { name: "Passion", intensity_range: [70, 100] }
+        },
+        blendableWith: ["JOY-001", "TRU-001", "GRA-001"],
+        triggers: ["connection", "caring", "affection", "bonding", "devotion"],
+        intensityMarkers: {
+          low: ["fond", "caring", "affectionate"],
+          medium: ["loving", "devoted", "passionate"],
+          high: ["deeply in love", "unconditional love", "soul connection"]
+        },
+        createdAt: new Date(),
       }
     ];
 

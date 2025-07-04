@@ -65,12 +65,22 @@ export class EmotionCodexService {
 
     // Enhanced keyword matching for better emotion detection
     const emotionKeywords: Record<string, string[]> = {
-      'FEAR': ['scared', 'afraid', 'terrified', 'anxious', 'worried', 'nervous', 'panic', 'dread', 'frightened', 'fearful'],
-      'ANGER': ['angry', 'mad', 'furious', 'frustrated', 'irritated', 'annoyed', 'rage', 'livid', 'hostile', 'outraged'],
-      'JOY': ['happy', 'joyful', 'excited', 'thrilled', 'elated', 'delighted', 'cheerful', 'glad', 'content', 'euphoric'],
-      'SADNESS': ['sad', 'depressed', 'miserable', 'heartbroken', 'melancholy', 'sorrowful', 'dejected', 'despondent', 'gloomy', 'blue'],
-      'LOVE': ['love', 'adore', 'cherish', 'affection', 'fondness', 'devotion', 'passion', 'romantic', 'caring', 'tender'],
-      'SURPRISE': ['surprised', 'amazed', 'shocked', 'astonished', 'stunned', 'bewildered', 'startled', 'astounded']
+      'FEAR': ['scared', 'afraid', 'terrified', 'anxious', 'worried', 'nervous', 'panic', 'dread', 'frightened', 'fearful', 'uncertain', 'confused', 'unsure'],
+      'ANGER': ['angry', 'mad', 'furious', 'frustrated', 'irritated', 'annoyed', 'rage', 'livid', 'hostile', 'outraged', 'disapproval'],
+      'JOY': ['happy', 'joyful', 'excited', 'thrilled', 'elated', 'delighted', 'cheerful', 'glad', 'content', 'euphoric', 'relief', 'optimistic', 'proud'],
+      'SADNESS': ['sad', 'depressed', 'miserable', 'heartbroken', 'melancholy', 'sorrowful', 'dejected', 'despondent', 'gloomy', 'blue', 'grief', 'disappointed', 'hopeless', 'remorse'],
+      'LOVE': ['love', 'adore', 'cherish', 'affection', 'fondness', 'devotion', 'passion', 'romantic', 'caring', 'tender', 'compassion', 'gratitude', 'thankful', 'admiration'],
+      'SURPRISE': ['surprised', 'amazed', 'shocked', 'astonished', 'stunned', 'bewildered', 'startled', 'astounded', 'realization'],
+      'DISGUST': ['disgust', 'gross', 'yuck', 'revulsion', 'contempt', 'nauseated', 'disdain'],
+      'CURIOSITY': ['curious', 'wondering', 'intrigued', 'obsessed', 'wonder', 'skeptical'],
+      'GUILT': ['guilt', 'guilty', 'remorse', 'regret', 'self-blame', 'responsible'],
+      'SHAME': ['embarrassed', 'humiliated', 'worthless', 'ashamed'],
+      'PLAYFULNESS': ['amused', 'funny', 'laughing', 'teasing', 'lighthearted', 'carefree'],
+      'TRUST': ['trust', 'comfort', 'faith', 'loyal', 'secure', 'safe'],
+      'HOPE': ['hope', 'hopeful', 'optimism', 'anticipation', 'visionary'],
+      'GRIEF': ['grief', 'grieving', 'mourning', 'bereavement', 'nostalgic'],
+      'HELPLESSNESS': ['powerless', 'trapped', 'stuck', 'overwhelmed', 'exhausted', 'resigned', 'isolated', 'overloaded'],
+      'LONELINESS': ['lonely', 'alone', 'isolated', 'invisible', 'disconnected', 'companionship']
     };
 
     // Metaphor patterns for enhanced detection
