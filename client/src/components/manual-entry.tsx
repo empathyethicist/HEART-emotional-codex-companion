@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { PlusCircle, Loader2 } from "lucide-react";
+import { PlusCircle, Loader2, Database, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,31 @@ const emotionFamilies = [
 
 export default function ManualEntry() {
   const { toast } = useToast();
+
+  // Mass population mutation
+  const populateCodexMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/emotions/populate", {
+        method: "POST"
+      });
+      if (!response.ok) throw new Error("Failed to populate codex");
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Codex Population Complete", 
+        description: `Added ${data.results.emotionFamiliesAdded} emotion families. Skipped ${data.results.emotionFamiliesSkipped} existing families.`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/emotions/codex"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Population Failed",
+        description: error.message || "Failed to populate emotion codex from YAML file",
+        variant: "destructive",
+      });
+    },
+  });
 
   const form = useForm<FormData>({
     resolver: zodResolver(manualEntrySchema),
@@ -81,7 +106,8 @@ export default function ManualEntry() {
   };
 
   return (
-    <Card className="surface-card">
+    <div className="space-y-6">
+      <Card className="surface-card">
       <CardHeader>
         <CardTitle className="flex items-center">
           <PlusCircle className="mr-2 text-accent" />
@@ -322,5 +348,69 @@ export default function ManualEntry() {
         </Form>
       </CardContent>
     </Card>
+
+    {/* Mass Population Section */}
+    <Card className="w-full max-w-2xl">
+      <CardHeader>
+        <CardTitle className="flex items-center">
+          <Database className="mr-2 h-5 w-5" />
+          Mass Codex Population
+        </CardTitle>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Populate the emotion codex with comprehensive emotion families from the YAML schema
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+          <div className="flex items-start space-x-3">
+            <Download className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+            <div className="flex-1">
+              <h4 className="font-medium text-blue-900 dark:text-blue-100">
+                Automated Population Available
+              </h4>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                This will add emotion families from the YAML file including Joy, Sadness, Anger, Fear, Love, 
+                Disgust, Curiosity, Guilt, Shame, Surprise, Playfulness, Trust, Hope, Grief, Helplessness, 
+                and Loneliness with their complete variant structures.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div>
+            <h4 className="font-medium">Emotion Families Schema</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              16 comprehensive emotion families with variants, triggers, and intensity markers
+            </p>
+          </div>
+          <Button 
+            onClick={() => populateCodexMutation.mutate()}
+            disabled={populateCodexMutation.isPending}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            {populateCodexMutation.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Populating...
+              </>
+            ) : (
+              <>
+                <Database className="mr-2 h-4 w-4" />
+                Populate Codex
+              </>
+            )}
+          </Button>
+        </div>
+
+        <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+          <p>• Existing emotion families will be skipped to prevent duplicates</p>
+          <p>• Each family includes multiple variants with intensity ranges</p>
+          <p>• Triggers and cultural markers are automatically generated</p>
+          <p>• Blendable emotion relationships are established</p>
+        </div>
+      </CardContent>
+      </Card>
+    </div>
   );
 }
