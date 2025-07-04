@@ -30,7 +30,16 @@ export default function CodexBrowser() {
   const [selectedFamily, setSelectedFamily] = useState("");
 
   const { data: codexEntries = [], isLoading } = useQuery<CodexEntry[]>({
-    queryKey: ["/api/emotions/codex", searchQuery, selectedFamily !== "all" ? selectedFamily : ""].filter(Boolean),
+    queryKey: ["/api/emotions/codex", { search: searchQuery, family: selectedFamily !== "all" ? selectedFamily : undefined }],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (searchQuery) params.append('search', searchQuery);
+      if (selectedFamily && selectedFamily !== "all") params.append('family', selectedFamily);
+      
+      const response = await fetch(`/api/emotions/codex?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch codex entries');
+      return response.json();
+    }
   });
 
   const getUniversalityColor = (universality: string) => {

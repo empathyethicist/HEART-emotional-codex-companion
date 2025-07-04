@@ -101,21 +101,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { search, family } = req.query;
       
-      if (search) {
-        const results = emotionCodexService.searchEmotions(search as string);
-        return res.json(results);
-      }
+      // Get emotion entries from storage instead of codex service
+      let emotionEntries = await storage.getAllEmotionEntries();
       
+      // Filter by family if specified
       if (family) {
-        const allEmotions = emotionCodexService.getAllEmotions();
-        const filtered = Object.entries(allEmotions)
-          .filter(([key, _]) => key === family)
-          .map(([family, data]) => ({ family, data }));
-        return res.json(filtered);
+        emotionEntries = emotionEntries.filter(entry => entry.emotionFamily === family);
       }
       
-      const allEmotions = emotionCodexService.getAllEmotions();
-      const formatted = Object.entries(allEmotions).map(([family, data]) => ({ family, data }));
+      // Filter by search if specified
+      if (search) {
+        const searchTerm = (search as string).toLowerCase();
+        emotionEntries = emotionEntries.filter(entry => 
+          entry.emotionFamily.toLowerCase().includes(searchTerm) ||
+          entry.variant?.toLowerCase().includes(searchTerm) ||
+          entry.definition.toLowerCase().includes(searchTerm) ||
+          (entry.triggers as string[]).some(trigger => trigger.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      // Format the response to match the expected structure
+      const formatted = emotionEntries.map(entry => ({
+        family: entry.emotionFamily,
+        data: {
+          reference_code: entry.referenceCode,
+          definition: entry.definition,
+          intensity_range: [entry.intensityMin, entry.intensityMax] as [number, number],
+          cultural_universality: entry.culturalUniversality,
+          variants: entry.variants,
+          blendable_with: entry.blendableWith,
+          triggers: entry.triggers,
+          intensity_markers: entry.intensityMarkers
+        }
+      }));
+      
       res.json(formatted);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
