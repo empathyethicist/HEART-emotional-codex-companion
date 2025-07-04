@@ -204,6 +204,213 @@ export class MemStorage implements IStorage {
           high: ["deeply in love", "unconditional love", "soul connection"]
         },
         createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "HOP-001",
+        emotionFamily: "HOPE",
+        variant: "Hope",
+        definition: "A positive emotional state characterized by expectation and desire for a certain thing to happen",
+        intensityMin: 30,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "HOP-002": { name: "Optimism", intensity_range: [40, 80] },
+          "HOP-003": { name: "Anticipation", intensity_range: [30, 70] },
+          "HOP-004": { name: "Faith", intensity_range: [50, 90] }
+        },
+        blendableWith: ["JOY-001", "TRU-001", "LOV-001"],
+        triggers: ["possibility", "future", "faith", "optimism", "belief"],
+        intensityMarkers: {
+          low: ["hopeful", "optimistic", "expectant"],
+          medium: ["confident", "believing", "trusting"],
+          high: ["certain", "unwavering faith", "absolute confidence"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "GRI-001",
+        emotionFamily: "GRIEF",
+        variant: "Grief",
+        definition: "Deep sorrow especially that caused by someone's death or a significant loss",
+        intensityMin: 50,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "GRI-002": { name: "Bereavement", intensity_range: [70, 100] },
+          "GRI-003": { name: "Mourning", intensity_range: [60, 90] },
+          "GRI-004": { name: "Loss", intensity_range: [50, 80] }
+        },
+        blendableWith: ["SAD-001", "LON-001", "HEL-001"],
+        triggers: ["death", "loss", "separation", "ending", "absence"],
+        intensityMarkers: {
+          low: ["missing", "saddened", "mourning"],
+          medium: ["grieving", "bereaved", "heartbroken"],
+          high: ["devastated", "inconsolable", "shattered"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "DIS-001",
+        emotionFamily: "DISGUST",
+        variant: "Disgust",
+        definition: "A feeling of revulsion or strong disapproval aroused by something unpleasant or offensive",
+        intensityMin: 20,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "DIS-002": { name: "Revulsion", intensity_range: [60, 100] },
+          "DIS-003": { name: "Contempt", intensity_range: [40, 80] },
+          "DIS-004": { name: "Disdain", intensity_range: [30, 70] }
+        },
+        blendableWith: ["ANG-001", "FEA-001"],
+        triggers: ["offensive", "unpleasant", "repulsive", "morally wrong"],
+        intensityMarkers: {
+          low: ["distaste", "dislike", "disapproval"],
+          medium: ["disgusted", "repulsed", "revolted"],
+          high: ["nauseated", "sickened", "abhorrent"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "SUR-001",
+        emotionFamily: "SURPRISE",
+        variant: "Surprise",
+        definition: "A feeling of mild astonishment or shock caused by something unexpected",
+        intensityMin: 20,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "SUR-002": { name: "Amazement", intensity_range: [60, 90] },
+          "SUR-003": { name: "Shock", intensity_range: [70, 100] },
+          "SUR-004": { name: "Wonder", intensity_range: [40, 80] }
+        },
+        blendableWith: ["JOY-001", "FEA-001", "CUR-001"],
+        triggers: ["unexpected", "sudden", "novel", "shocking"],
+        intensityMarkers: {
+          low: ["surprised", "taken aback", "caught off guard"],
+          medium: ["astonished", "amazed", "startled"],
+          high: ["shocked", "stunned", "flabbergasted"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "CUR-001",
+        emotionFamily: "CURIOSITY",
+        variant: "Curiosity",
+        definition: "A strong desire to know or learn something",
+        intensityMin: 20,
+        intensityMax: 90,
+        culturalUniversality: "High",
+        variants: {
+          "CUR-002": { name: "Intrigue", intensity_range: [40, 70] },
+          "CUR-003": { name: "Wonder", intensity_range: [30, 80] },
+          "CUR-004": { name: "Investigation", intensity_range: [50, 90] }
+        },
+        blendableWith: ["SUR-001", "JOY-001"],
+        triggers: ["mystery", "unknown", "question", "exploration"],
+        intensityMarkers: {
+          low: ["interested", "curious", "wondering"],
+          medium: ["intrigued", "fascinated", "eager to know"],
+          high: ["obsessed", "consumed by curiosity", "must know"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "GUI-001",
+        emotionFamily: "GUILT",
+        variant: "Guilt",
+        definition: "A feeling of having done wrong or failed in an obligation",
+        intensityMin: 30,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "GUI-002": { name: "Remorse", intensity_range: [60, 100] },
+          "GUI-003": { name: "Regret", intensity_range: [40, 80] },
+          "GUI-004": { name: "Self-Blame", intensity_range: [50, 90] }
+        },
+        blendableWith: ["SAD-001", "SHA-001", "FEA-001"],
+        triggers: ["wrongdoing", "mistake", "harm", "responsibility"],
+        intensityMarkers: {
+          low: ["sorry", "regretful", "apologetic"],
+          medium: ["guilty", "remorseful", "ashamed"],
+          high: ["tormented", "consumed by guilt", "self-loathing"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "SHA-001",
+        emotionFamily: "SHAME",
+        variant: "Shame",
+        definition: "A painful feeling of humiliation or distress caused by consciousness of wrong or foolish behavior",
+        intensityMin: 40,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "SHA-002": { name: "Embarrassment", intensity_range: [40, 70] },
+          "SHA-003": { name: "Humiliation", intensity_range: [70, 100] },
+          "SHA-004": { name: "Mortification", intensity_range: [80, 100] }
+        },
+        blendableWith: ["GUI-001", "SAD-001", "ANG-001"],
+        triggers: ["exposure", "judgment", "failure", "inadequacy"],
+        intensityMarkers: {
+          low: ["embarrassed", "self-conscious", "awkward"],
+          medium: ["ashamed", "humiliated", "mortified"],
+          high: ["utterly shamed", "wanting to disappear", "crushed"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "TRU-001",
+        emotionFamily: "TRUST",
+        variant: "Trust",
+        definition: "Firm belief in the reliability, truth, or ability of someone or something",
+        intensityMin: 30,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {
+          "TRU-002": { name: "Faith", intensity_range: [60, 100] },
+          "TRU-003": { name: "Confidence", intensity_range: [50, 90] },
+          "TRU-004": { name: "Security", intensity_range: [40, 80] }
+        },
+        blendableWith: ["LOV-001", "HOP-001", "JOY-001"],
+        triggers: ["reliability", "safety", "honesty", "consistency"],
+        intensityMarkers: {
+          low: ["trusting", "confident", "believing"],
+          medium: ["secure", "certain", "faithful"],
+          high: ["unwavering trust", "absolute faith", "complete confidence"]
+        },
+        createdAt: new Date(),
+      },
+      {
+        id: this.currentId++,
+        referenceCode: "PLA-001",
+        emotionFamily: "PLAYFULNESS",
+        variant: "Playfulness",
+        definition: "A lighthearted, fun-loving attitude characterized by humor and spontaneity",
+        intensityMin: 20,
+        intensityMax: 90,
+        culturalUniversality: "High",
+        variants: {
+          "PLA-002": { name: "Amusement", intensity_range: [30, 70] },
+          "PLA-003": { name: "Humor", intensity_range: [40, 80] },
+          "PLA-004": { name: "Whimsy", intensity_range: [20, 60] }
+        },
+        blendableWith: ["JOY-001", "CUR-001", "SUR-001"],
+        triggers: ["fun", "games", "jokes", "spontaneity"],
+        intensityMarkers: {
+          low: ["playful", "lighthearted", "amused"],
+          medium: ["silly", "goofy", "mischievous"],
+          high: ["exuberant", "wild", "uncontrollably playful"]
+        },
+        createdAt: new Date(),
       }
     ];
 
