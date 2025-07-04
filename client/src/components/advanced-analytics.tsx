@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -162,14 +162,14 @@ export default function AdvancedAnalytics() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {culturalProfiles && Object.entries(culturalProfiles).map(([code, profile]) => {
+                  {culturalProfiles && (Object.entries(culturalProfiles as Record<string, any>).map(([code, profile]) => {
                     const profileData = profile as any;
                     return (
                       <SelectItem key={code} value={code}>
-                        {profileData.region}
+                        {String(profileData.region)}
                       </SelectItem>
                     );
-                  })}
+                  }) as React.ReactNode)}
                 </SelectContent>
               </Select>
             </div>
@@ -343,7 +343,7 @@ export default function AdvancedAnalytics() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {Object.entries(toneCodes).map(([code, toneData]) => {
+              {Object.entries(toneCodes as Record<string, any>).map(([code, toneData]) => {
                 const tone = toneData as any;
                 return (
                   <div key={code} className="p-3 border rounded-lg">
@@ -353,15 +353,15 @@ export default function AdvancedAnalytics() {
                         variant={tone.riskLevel === 'high' ? 'destructive' : 
                                 tone.riskLevel === 'medium' ? 'secondary' : 'default'}
                       >
-                        {tone.riskLevel} risk
+                        {String(tone.riskLevel)} risk
                       </Badge>
                     </div>
-                    <h5 className="font-semibold text-sm">{tone.name}</h5>
+                    <h5 className="font-semibold text-sm">{String(tone.name)}</h5>
                     <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                      {tone.description}
+                      {String(tone.description)}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                      <strong>Use case:</strong> {tone.useCase}
+                      <strong>Use case:</strong> {String(tone.useCase)}
                     </p>
                   </div>
                 );

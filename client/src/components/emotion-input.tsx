@@ -28,7 +28,7 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
   // Fetch cultural contexts
   const { data: culturalContexts = [] } = useQuery({
     queryKey: ["/api/cultural-contexts"],
-  });
+  }) as { data: string[] };
 
   const form = useForm<FormData>({
     resolver: zodResolver(emotionProcessingRequestSchema),
@@ -76,8 +76,7 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
       {/* Input Form */}
       <Card className="surface-card">
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <Heart className="mr-2 text-accent" />
+          <CardTitle>
             Emotion Input
           </CardTitle>
         </CardHeader>
@@ -119,7 +118,7 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="Auto-detect">Auto-detect</SelectItem>
-                          {culturalContexts.map((context: string) => (
+                          {(culturalContexts as string[]).map((context: string) => (
                             <SelectItem key={context} value={context}>
                               {context}
                             </SelectItem>

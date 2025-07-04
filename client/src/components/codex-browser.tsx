@@ -131,9 +131,8 @@ export default function CodexBrowser() {
   return (
     <Card className="surface-card">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <Book className="mr-2 text-accent" />
-          Emotion Codex Browser
+        <CardTitle>
+          Codex Browser
         </CardTitle>
       </CardHeader>
       <CardContent>

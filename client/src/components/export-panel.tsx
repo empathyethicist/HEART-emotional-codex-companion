@@ -60,19 +60,20 @@ export default function ExportPanel({ currentEmid }: ExportPanelProps) {
   const handleCopyToClipboard = async () => {
     if (!cmopData) return;
 
+    const data = cmopData as any;
     const exportData = {
-      input_phrase: cmopData.inputPhrase,
-      emotion_family: cmopData.emotionFamily,
-      variant: cmopData.variant,
-      codex_reference: cmopData.codexReference,
-      intensity: cmopData.intensity / 100,
-      blendable_with: cmopData.blendableWith,
-      symbolic_reference: cmopData.symbolicReference,
-      cultural_tag: cmopData.culturalTag,
-      emid: cmopData.emid,
-      timestamp: cmopData.timestamp,
-      confidence: cmopData.confidence / 100,
-      sal_analysis: cmopData.salAnalysis
+      input_phrase: data.inputPhrase,
+      emotion_family: data.emotionFamily,
+      variant: data.variant,
+      codex_reference: data.codexReference,
+      intensity: data.intensity / 100,
+      blendable_with: data.blendableWith,
+      symbolic_reference: data.symbolicReference,
+      cultural_tag: data.culturalTag,
+      emid: data.emid,
+      timestamp: data.timestamp,
+      confidence: data.confidence / 100,
+      sal_analysis: data.salAnalysis
     };
 
     try {
@@ -112,9 +113,8 @@ export default function ExportPanel({ currentEmid }: ExportPanelProps) {
   return (
     <Card className="surface-card">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <Download className="mr-2 text-accent" />
-          Export & Save Options
+        <CardTitle>
+          Export & Save
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -147,7 +147,7 @@ export default function ExportPanel({ currentEmid }: ExportPanelProps) {
             </div>
             <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 font-roboto-mono text-sm overflow-x-auto code-block">
               <pre className="whitespace-pre-wrap">
-                {JSON.stringify(formatCmopForDisplay(cmopData), null, 2)}
+                {JSON.stringify(formatCmopForDisplay(cmopData as any), null, 2)}
               </pre>
             </div>
           </div>

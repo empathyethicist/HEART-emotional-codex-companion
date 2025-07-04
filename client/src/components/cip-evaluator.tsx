@@ -176,9 +176,8 @@ export default function CIPEvaluator() {
     <div className="space-y-6">
       <Card className="w-full max-w-4xl">
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <Brain className="mr-2 h-5 w-5" />
-            CIP Rubric Evaluator
+          <CardTitle>
+            CIP Evaluator
           </CardTitle>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Evaluate emotions using the Cultural Inclusion Protocol (CIP) from the Codex Mapping Manual
