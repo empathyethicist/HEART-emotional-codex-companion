@@ -78,7 +78,7 @@ export default function EmotionInput({ onEmotionProcessed }: EmotionInputProps) 
         <CardHeader>
           <CardTitle className="flex items-center">
             <Heart className="mr-2 text-accent" />
-            Emotional Expression Input
+            Emotion Input
           </CardTitle>
         </CardHeader>
         <CardContent>
