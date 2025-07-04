@@ -125,11 +125,21 @@ export default function CodexBrowser() {
               <SelectContent>
                 <SelectItem value="all">All Families</SelectItem>
                 <SelectItem value="JOY">JOY</SelectItem>
-                <SelectItem value="FEAR">FEAR</SelectItem>
-                <SelectItem value="ANGER">ANGER</SelectItem>
                 <SelectItem value="SADNESS">SADNESS</SelectItem>
+                <SelectItem value="ANGER">ANGER</SelectItem>
+                <SelectItem value="FEAR">FEAR</SelectItem>
                 <SelectItem value="LOVE">LOVE</SelectItem>
+                <SelectItem value="DISGUST">DISGUST</SelectItem>
+                <SelectItem value="CURIOSITY">CURIOSITY</SelectItem>
+                <SelectItem value="GUILT">GUILT</SelectItem>
+                <SelectItem value="SHAME">SHAME</SelectItem>
                 <SelectItem value="SURPRISE">SURPRISE</SelectItem>
+                <SelectItem value="PLAYFULNESS">PLAYFULNESS</SelectItem>
+                <SelectItem value="TRUST">TRUST</SelectItem>
+                <SelectItem value="HOPE">HOPE</SelectItem>
+                <SelectItem value="GRIEF">GRIEF</SelectItem>
+                <SelectItem value="HELPLESSNESS">HELPLESSNESS</SelectItem>
+                <SelectItem value="LONELINESS">LONELINESS</SelectItem>
               </SelectContent>
             </Select>
           </div>
