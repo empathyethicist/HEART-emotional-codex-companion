@@ -99,7 +99,15 @@ Three primary entities:
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+- Added comprehensive emotion variant expansion system (JOY-002, ANG-003, etc.)
+- Created VariantExpander service for generating detailed emotion sub-categories
+- Added API endpoint for mass variant creation with intensity ranges and triggers
+- Enhanced Manual Entry UI with "Expand Variants" functionality
+- Implemented micro-variant generation with sub-categories and blendable relationships
+
 ## Changelog
 
-Changelog:
-- July 04, 2025. Initial setup
+- July 04, 2025. Initial setup and comprehensive emotion processing system
+- July 04, 2025. Added variant expansion capabilities for detailed emotion categorization

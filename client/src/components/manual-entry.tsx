@@ -49,6 +49,31 @@ export default function ManualEntry() {
     },
   });
 
+  // Variant expansion mutation
+  const expandVariantsMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/emotions/expand-variants", {
+        method: "POST"
+      });
+      if (!response.ok) throw new Error("Failed to expand variants");
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Variant Expansion Complete",
+        description: `Added ${data.results.variantsAdded} emotion variants. Skipped ${data.results.variantsSkipped} existing variants.`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/emotions/codex"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Expansion Failed",
+        description: error.message || "Failed to expand emotion variants",
+        variant: "destructive",
+      });
+    },
+  });
+
   const form = useForm<FormData>({
     resolver: zodResolver(manualEntrySchema),
     defaultValues: {
@@ -377,30 +402,58 @@ export default function ManualEntry() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-          <div>
-            <h4 className="font-medium">Emotion Families Schema</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              16 comprehensive emotion families with variants, triggers, and intensity markers
-            </p>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div>
+              <h4 className="font-medium">Emotion Families Schema</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                16 comprehensive emotion families with variants, triggers, and intensity markers
+              </p>
+            </div>
+            <Button 
+              onClick={() => populateCodexMutation.mutate()}
+              disabled={populateCodexMutation.isPending}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {populateCodexMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Populating...
+                </>
+              ) : (
+                <>
+                  <Database className="mr-2 h-4 w-4" />
+                  Populate Codex
+                </>
+              )}
+            </Button>
           </div>
-          <Button 
-            onClick={() => populateCodexMutation.mutate()}
-            disabled={populateCodexMutation.isPending}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            {populateCodexMutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Populating...
-              </>
-            ) : (
-              <>
-                <Database className="mr-2 h-4 w-4" />
-                Populate Codex
-              </>
-            )}
-          </Button>
+
+          <div className="flex items-center justify-between p-4 border border-purple-200 dark:border-purple-700 rounded-lg bg-purple-50 dark:bg-purple-950">
+            <div>
+              <h4 className="font-medium text-purple-900 dark:text-purple-100">Expand Emotion Variants</h4>
+              <p className="text-sm text-purple-700 dark:text-purple-300">
+                Add detailed variants like JOY-002 (Euphoria), ANG-002 (Frustration), FEA-002 (Anxiety)
+              </p>
+            </div>
+            <Button 
+              onClick={() => expandVariantsMutation.mutate()}
+              disabled={expandVariantsMutation.isPending}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              {expandVariantsMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Expanding...
+                </>
+              ) : (
+                <>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Expand Variants
+                </>
+              )}
+            </Button>
+          </div>
         </div>
 
         <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
