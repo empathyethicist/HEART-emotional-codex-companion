@@ -11,6 +11,7 @@ import {
 } from "@shared/schema";
 import { generateEmid } from "./utils/emid-generator";
 import { codexPopulator } from "./services/codex-populator";
+import { variantExpander } from "./services/variant-expander";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -294,6 +295,24 @@ EMID: ${exportData.emid}`;
         results: {
           emotionFamiliesAdded: results.added,
           emotionFamiliesSkipped: results.skipped,
+          errors: results.errors
+        }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Expand emotion variants (ANG-002, JOY-002, etc.)
+  app.post("/api/emotions/expand-variants", async (req, res) => {
+    try {
+      const results = await variantExpander.expandAllEmotionVariants();
+      
+      res.json({
+        message: "Variant expansion completed",
+        results: {
+          variantsAdded: results.added,
+          variantsSkipped: results.skipped,
           errors: results.errors
         }
       });
