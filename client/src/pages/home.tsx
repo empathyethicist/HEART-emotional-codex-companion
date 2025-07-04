@@ -15,7 +15,7 @@ export default function Home() {
     <div className="min-h-screen bg-app-background">
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-6 bg-[#910000e8]">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Brain className="text-2xl" />
@@ -33,7 +33,6 @@ export default function Home() {
           </div>
         </div>
       </header>
-
       {/* Main Application */}
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="grid grid-cols-12 gap-6">
@@ -113,7 +112,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       {/* Footer */}
       <footer className="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
         <div className="container mx-auto px-4 py-6">
