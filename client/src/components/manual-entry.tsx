@@ -134,9 +134,8 @@ export default function ManualEntry() {
     <div className="space-y-6">
       <Card className="surface-card">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <PlusCircle className="mr-2 text-accent" />
-          Manual Emotion Entry
+        <CardTitle>
+          Manual Entry
         </CardTitle>
       </CardHeader>
       <CardContent>
