@@ -10,6 +10,8 @@ import {
   type EmotionProcessingResponse 
 } from "@shared/schema";
 import { generateEmid } from "./utils/emid-generator";
+import { codexPopulator } from "./services/codex-populator";
+import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -276,6 +278,25 @@ EMID: ${exportData.emid}`;
     try {
       const contexts = culturalOverlayService.getAllCulturalContexts();
       res.json(contexts);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Populate codex from YAML file
+  app.post("/api/emotions/populate", async (req, res) => {
+    try {
+      const yamlFilePath = path.join(process.cwd(), "attached_assets", "emotion_families_1751588740129.yaml");
+      const results = await codexPopulator.populateFromYamlFile(yamlFilePath);
+      
+      res.json({
+        message: "Codex population completed",
+        results: {
+          emotionFamiliesAdded: results.added,
+          emotionFamiliesSkipped: results.skipped,
+          errors: results.errors
+        }
+      });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
