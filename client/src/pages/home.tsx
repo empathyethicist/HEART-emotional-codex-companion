@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmotionInput from "@/components/emotion-input";
 import CodexBrowser from "@/components/codex-browser";
 import ManualEntry from "@/components/manual-entry";
+import CIPEvaluator from "@/components/cip-evaluator";
 import ExportPanel from "@/components/export-panel";
 import Sidebar from "@/components/sidebar";
 
@@ -40,7 +41,7 @@ export default function Home() {
           <div className="col-span-12 lg:col-span-8">
             <Tabs defaultValue="input" className="space-y-6">
               <div className="surface-card rounded-lg shadow-md">
-                <TabsList className="grid w-full grid-cols-4 bg-transparent p-0 h-auto">
+                <TabsList className="grid w-full grid-cols-5 bg-transparent p-0 h-auto">
                   <TabsTrigger 
                     value="input" 
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
@@ -69,6 +70,15 @@ export default function Home() {
                     </span>
                   </TabsTrigger>
                   <TabsTrigger 
+                    value="cip"
+                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                  >
+                    <span className="flex items-center">
+                      <span className="mr-2">🧠</span>
+                      CIP Evaluator
+                    </span>
+                  </TabsTrigger>
+                  <TabsTrigger 
                     value="export"
                     className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
@@ -90,6 +100,10 @@ export default function Home() {
 
               <TabsContent value="manual" className="space-y-6">
                 <ManualEntry />
+              </TabsContent>
+
+              <TabsContent value="cip" className="space-y-6">
+                <CIPEvaluator />
               </TabsContent>
 
               <TabsContent value="export" className="space-y-6">

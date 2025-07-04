@@ -12,6 +12,7 @@ import {
 import { generateEmid } from "./utils/emid-generator";
 import { codexPopulator } from "./services/codex-populator";
 import { variantExpander } from "./services/variant-expander";
+import { cipRubricService } from "./services/cip-rubric";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -315,6 +316,42 @@ EMID: ${exportData.emid}`;
           variantsSkipped: results.skipped,
           errors: results.errors
         }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // CIP Rubric evaluation for emotion inclusion
+  app.post("/api/emotions/cip-evaluate", async (req, res) => {
+    try {
+      const { emotionName, description, culturalContext, triggers } = req.body;
+      
+      if (!emotionName || !description) {
+        return res.status(400).json({ message: "Emotion name and description are required" });
+      }
+
+      const cipScore = cipRubricService.evaluateEmotionForInclusion(
+        emotionName,
+        description,
+        culturalContext || "Universal",
+        triggers || []
+      );
+
+      const esdmDeconstruction = cipRubricService.performESDMDeconstruction(
+        emotionName,
+        description,
+        triggers || [],
+        culturalContext || "Universal"
+      );
+
+      res.json({
+        cipScore,
+        esdmDeconstruction,
+        recommendation: cipScore.qualifiesForInclusion 
+          ? "Emotion qualifies for codex inclusion"
+          : "Emotion requires refinement before inclusion",
+        heartAlignment: cipScore.totalScore >= 7.0
       });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
