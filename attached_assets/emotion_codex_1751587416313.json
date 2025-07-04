@@ -1,0 +1,209 @@
+{
+  "JOY": {
+    "reference_code": "JOY-001",
+    "definition": "A positive emotional state marked by happiness, satisfaction, fulfillment, and inner contentment",
+    "intensity_range": [
+      0.4,
+      1.0
+    ],
+    "cultural_universality": "High",
+    "variants": {
+      "JOY-002": {
+        "name": "Elation",
+        "intensity_range": [
+          0.7,
+          1.0
+        ]
+      },
+      "JOY-003": {
+        "name": "Relief",
+        "intensity_range": [
+          0.3,
+          0.8
+        ]
+      },
+      "JOY-004": {
+        "name": "Delight",
+        "intensity_range": [
+          0.4,
+          0.7
+        ]
+      },
+      "JOY-005": {
+        "name": "Contentment",
+        "intensity_range": [
+          0.3,
+          0.6
+        ]
+      }
+    },
+    "blendable_with": [
+      "SUR-001",
+      "LOV-001",
+      "TRU-001"
+    ],
+    "triggers": [
+      "achievement",
+      "success",
+      "positive_feedback",
+      "celebration",
+      "love",
+      "gratitude"
+    ],
+    "intensity_markers": {
+      "low": [
+        "pleased",
+        "glad",
+        "content"
+      ],
+      "medium": [
+        "happy",
+        "excited",
+        "joyful"
+      ],
+      "high": [
+        "ecstatic",
+        "thrilled",
+        "euphoric"
+      ]
+    }
+  },
+  "FEAR": {
+    "reference_code": "FEA-001",
+    "definition": "A negative emotional state characterized by anxiety, worry, and apprehension in response to perceived threats or dangers",
+    "intensity_range": [
+      0.3,
+      1.0
+    ],
+    "cultural_universality": "High",
+    "variants": {
+      "FEA-002": {
+        "name": "Anxiety",
+        "intensity_range": [
+          0.4,
+          0.8
+        ]
+      },
+      "FEA-003": {
+        "name": "Dread",
+        "intensity_range": [
+          0.6,
+          0.9
+        ]
+      },
+      "FEA-004": {
+        "name": "Panic",
+        "intensity_range": [
+          0.8,
+          1.0
+        ]
+      },
+      "FEA-005": {
+        "name": "Worry",
+        "intensity_range": [
+          0.3,
+          0.6
+        ]
+      }
+    },
+    "blendable_with": [
+      "SAD-001",
+      "ANG-001",
+      "HEL-001"
+    ],
+    "triggers": [
+      "uncertainty",
+      "threat",
+      "change",
+      "failure",
+      "loss",
+      "unknown"
+    ],
+    "intensity_markers": {
+      "low": [
+        "concerned",
+        "uneasy",
+        "nervous"
+      ],
+      "medium": [
+        "worried",
+        "anxious",
+        "fearful"
+      ],
+      "high": [
+        "panicked",
+        "terrified",
+        "petrified"
+      ]
+    }
+  },
+  "ANGER": {
+    "reference_code": "ANG-001",
+    "definition": "A negative emotional state triggered by perceived threat, injustice, or boundary violations, often experienced as hostility, irritation, or moral outrage",
+    "intensity_range": [
+      0.3,
+      1.0
+    ],
+    "cultural_universality": "High",
+    "variants": {
+      "ANG-002": {
+        "name": "Frustration",
+        "intensity_range": [
+          0.3,
+          0.7
+        ]
+      },
+      "ANG-003": {
+        "name": "Rage",
+        "intensity_range": [
+          0.8,
+          1.0
+        ]
+      },
+      "ANG-004": {
+        "name": "Resentment",
+        "intensity_range": [
+          0.4,
+          0.8
+        ]
+      },
+      "ANG-005": {
+        "name": "Irritation",
+        "intensity_range": [
+          0.2,
+          0.5
+        ]
+      }
+    },
+    "blendable_with": [
+      "FEA-001",
+      "DIS-001",
+      "GUI-001"
+    ],
+    "triggers": [
+      "injustice",
+      "blocking",
+      "disrespect",
+      "betrayal",
+      "incompetence",
+      "delay"
+    ],
+    "intensity_markers": {
+      "low": [
+        "annoyed",
+        "irritated",
+        "bothered"
+      ],
+      "medium": [
+        "frustrated",
+        "angry",
+        "mad"
+      ],
+      "high": [
+        "furious",
+        "enraged",
+        "livid"
+      ]
+    }
+  }
+}
