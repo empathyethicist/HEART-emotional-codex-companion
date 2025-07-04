@@ -67,6 +67,46 @@ export class CulturalOverlayService {
           "joy": "Often expressed through hospitality and generosity",
           "anger": "May relate to honor, respect, and family dignity"
         }
+      },
+      "Scandinavian": {
+        emotionExpressionStyle: "Reserved and understated",
+        intensityModifier: -0.15, // Generally more restrained
+        commonMetaphors: ["lagom (balance)", "janteloven (modesty)", "hygge (coziness)"],
+        culturalNuances: {
+          "sadness": "Often internalized with focus on personal resilience",
+          "joy": "Expressed quietly with emphasis on contentment and balance",
+          "anger": "Rarely displayed openly, processed through reflection"
+        }
+      },
+      "Russian": {
+        emotionExpressionStyle: "Deep and philosophical",
+        intensityModifier: 0.1, // Can be more expressive of deeper emotions
+        commonMetaphors: ["dusha (soul)", "toska (melancholy)", "sobor (unity)"],
+        culturalNuances: {
+          "sadness": "Accepted as part of life's depth, often expressed through art",
+          "joy": "Celebrated with warmth and community connection",
+          "anger": "May be expressed through passionate discourse or stoicism"
+        }
+      },
+      "Germanic": {
+        emotionExpressionStyle: "Structured and analytical",
+        intensityModifier: -0.05,
+        commonMetaphors: ["ordnung (order)", "gemütlichkeit (coziness)", "schadenfreude"],
+        culturalNuances: {
+          "sadness": "Processed methodically with focus on understanding causes",
+          "joy": "Expressed through shared activities and structured celebration",
+          "anger": "Channeled through systematic problem-solving"
+        }
+      },
+      "South Asian": {
+        emotionExpressionStyle: "Karma-aware and family-centered",
+        intensityModifier: 0.05,
+        commonMetaphors: ["dharma", "karma", "raga (emotional color)"],
+        culturalNuances: {
+          "sadness": "Often connected to concepts of karma and life lessons",
+          "joy": "Celebrated through festivals and family gatherings",
+          "anger": "May be tempered by concepts of dharma and righteous action"
+        }
       }
     };
   }
@@ -180,7 +220,17 @@ export class CulturalOverlayService {
   }
 
   getAllCulturalContexts(): string[] {
-    return Object.keys(this.culturalContexts);
+    return [
+      "Western (Generic)",
+      "East Asian",
+      "Latin American",
+      "African",
+      "Middle Eastern",
+      "Scandinavian",
+      "Russian",
+      "Germanic",
+      "South Asian"
+    ];
   }
 }
 
