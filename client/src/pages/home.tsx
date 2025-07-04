@@ -21,7 +21,7 @@ export default function Home() {
               <Brain className="text-2xl" />
               <div>
                 <h1 className="text-2xl font-bold">Emotional Codex Companion</h1>
-                <p className="text-blue-100 text-sm">Advanced Empathy System Development Tool</p>
+                <p className="text-blue-100 text-sm">Functional Empathy System Development Tool</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
