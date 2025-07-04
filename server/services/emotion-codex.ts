@@ -63,12 +63,64 @@ export class EmotionCodexService {
     let bestMatch: any = null;
     let highestConfidence = 0;
 
+    // Enhanced keyword matching for better emotion detection
+    const emotionKeywords: Record<string, string[]> = {
+      'FEAR': ['scared', 'afraid', 'terrified', 'anxious', 'worried', 'nervous', 'panic', 'dread', 'frightened', 'fearful'],
+      'ANGER': ['angry', 'mad', 'furious', 'frustrated', 'irritated', 'annoyed', 'rage', 'livid', 'hostile', 'outraged'],
+      'JOY': ['happy', 'joyful', 'excited', 'thrilled', 'elated', 'delighted', 'cheerful', 'glad', 'content', 'euphoric'],
+      'SADNESS': ['sad', 'depressed', 'miserable', 'heartbroken', 'melancholy', 'sorrowful', 'dejected', 'despondent', 'gloomy', 'blue'],
+      'LOVE': ['love', 'adore', 'cherish', 'affection', 'fondness', 'devotion', 'passion', 'romantic', 'caring', 'tender'],
+      'SURPRISE': ['surprised', 'amazed', 'shocked', 'astonished', 'stunned', 'bewildered', 'startled', 'astounded']
+    };
+
+    // Metaphor patterns for enhanced detection
+    const metaphorPatterns = {
+      'floating': ['JOY', 'CONFUSION'],
+      'drowning': ['FEAR', 'SADNESS'],
+      'fog': ['CONFUSION', 'SADNESS'],
+      'through fog': ['CONFUSION', 'UNCERTAINTY'],
+      'floating through': ['UNCERTAINTY', 'DETACHMENT'],
+      'sinking': ['SADNESS', 'FEAR'],
+      'burning': ['ANGER', 'PASSION'],
+      'frozen': ['FEAR', 'SHOCK'],
+      'melting': ['LOVE', 'RELIEF'],
+      'storm': ['ANGER', 'CHAOS'],
+      'sunshine': ['JOY', 'WARMTH']
+    };
+
     for (const [emotionFamily, emotionData] of Object.entries(this.codex)) {
-      // Check triggers
+      let confidence = 0;
+      let matchedReasons = [];
+
+      // Check direct keyword matches
+      const keywords = emotionKeywords[emotionFamily] || [];
+      const keywordMatches = keywords.filter((keyword: string) => 
+        normalizedInput.includes(keyword)
+      ).length;
+      
+      if (keywordMatches > 0) {
+        confidence += keywordMatches * 0.3;
+        matchedReasons.push(`keyword matches: ${keywordMatches}`);
+      }
+
+      // Check metaphor patterns
+      for (const [pattern, emotions] of Object.entries(metaphorPatterns)) {
+        if (normalizedInput.includes(pattern) && emotions.includes(emotionFamily)) {
+          confidence += 0.4;
+          matchedReasons.push(`metaphor: ${pattern}`);
+        }
+      }
+
+      // Check triggers from codex
       const triggers = emotionData.triggers || [];
       const triggerMatches = triggers.filter(trigger => 
         normalizedInput.includes(trigger.toLowerCase())
       ).length;
+      
+      if (triggerMatches > 0) {
+        confidence += triggerMatches * 0.2;
+        matchedReasons.push(`triggers: ${triggerMatches}`);
+      }
 
       // Check intensity markers
       const intensityMarkers = emotionData.intensity_markers || { low: [], medium: [], high: [] };
@@ -80,20 +132,35 @@ export class EmotionCodexService {
       const markerMatches = allMarkers.filter(marker => 
         normalizedInput.includes(marker.toLowerCase())
       ).length;
+      
+      if (markerMatches > 0) {
+        confidence += markerMatches * 0.1;
+        matchedReasons.push(`intensity markers: ${markerMatches}`);
+      }
 
-      // Calculate confidence based on matches
-      const confidence = (triggerMatches * 0.6 + markerMatches * 0.4) / 
-        Math.max(triggers.length + allMarkers.length, 1);
+      // Normalize confidence to 0-1 range
+      confidence = Math.min(confidence, 1);
 
-      if (confidence > highestConfidence) {
+      if (confidence > highestConfidence && confidence > 0.1) {
         highestConfidence = confidence;
         
-        // Determine intensity based on which markers matched
+        // Determine intensity based on context and markers
         let intensity = 0.5; // default medium
-        if (intensityMarkers.high.some(marker => normalizedInput.includes(marker.toLowerCase()))) {
+        
+        // Adjust based on metaphor intensity
+        if (normalizedInput.includes('drowning') || normalizedInput.includes('overwhelming')) {
           intensity = 0.8;
+        } else if (normalizedInput.includes('floating') || normalizedInput.includes('drifting')) {
+          intensity = 0.4;
+        } else if (normalizedInput.includes('crushing') || normalizedInput.includes('devastating')) {
+          intensity = 0.9;
+        }
+        
+        // Check intensity markers for fine-tuning
+        if (intensityMarkers.high.some(marker => normalizedInput.includes(marker.toLowerCase()))) {
+          intensity = Math.max(intensity, 0.8);
         } else if (intensityMarkers.low.some(marker => normalizedInput.includes(marker.toLowerCase()))) {
-          intensity = 0.3;
+          intensity = Math.min(intensity, 0.4);
         }
 
         // Check for specific variants
@@ -121,7 +188,7 @@ export class EmotionCodexService {
       }
     }
 
-    return highestConfidence > 0.1 ? bestMatch : null;
+    return bestMatch;
   }
 
   getAllEmotions(): Record<string, EmotionCodexEntry> {
