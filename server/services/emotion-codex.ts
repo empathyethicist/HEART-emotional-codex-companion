@@ -1,5 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
+import { toneClassifierService } from "./tone-classifier";
+import { culturalExpressionModifierService } from "./cultural-expression-modifier";
 
 // Load emotion codex data from the attached assets
 const emotionCodexData = JSON.parse(
@@ -51,13 +53,15 @@ export class EmotionCodexService {
     return processed;
   }
 
-  findEmotionMatch(inputPhrase: string): {
+  findEmotionMatch(inputPhrase: string, culturalContext: string = "Universal"): {
     emotion: string;
     variant?: string;
     referenceCode: string;
     confidence: number;
     intensity: number;
     blendableWith: string[];
+    toneAnalysis?: any;
+    culturalAnalysis?: any;
   } | null {
     const normalizedInput = inputPhrase.toLowerCase();
     let bestMatch: any = null;
@@ -187,6 +191,20 @@ export class EmotionCodexService {
           }
         }
 
+        // Add advanced tone and cultural analysis
+        const toneAnalysis = toneClassifierService.analyzeTone(
+          inputPhrase, 
+          emotionFamily, 
+          culturalContext, 
+          intensity
+        );
+        
+        const culturalAnalysis = culturalExpressionModifierService.analyzeCulturalExpression(
+          inputPhrase,
+          emotionFamily,
+          culturalContext !== "Universal" ? culturalContext : undefined
+        );
+
         bestMatch = {
           emotion: emotionFamily,
           variant: matchedVariant,
@@ -194,6 +212,8 @@ export class EmotionCodexService {
           confidence: Math.min(confidence, 1),
           intensity,
           blendableWith: emotionData.blendable_with || [],
+          toneAnalysis,
+          culturalAnalysis
         };
       }
     }
