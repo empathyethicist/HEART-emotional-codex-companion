@@ -35,16 +35,16 @@ export default function CodexBrowser() {
 
   // Fetch emotion codex entries
   const { data: codexEntries = [], isLoading: isLoadingEmotions, error } = useQuery<CodexEntry[]>({
-    queryKey: ["/api/emotions/codex", { search: searchQuery, family: selectedFamily !== "all" ? selectedFamily : undefined }],
+    queryKey: ["/api/emotions/codex", { search: searchQuery, family: selectedFamily || undefined }],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (searchQuery) params.append('search', searchQuery);
-      if (selectedFamily && selectedFamily !== "all") params.append('family', selectedFamily);
+      if (selectedFamily && selectedFamily !== "") params.append('family', selectedFamily);
       
       const response = await fetch(`/api/emotions/codex?${params}`);
       if (!response.ok) throw new Error('Failed to fetch codex entries');
       const data = await response.json();
-      console.log('🔍 Fetched codex entries:', data);
+      console.log('🔍 Fetched codex entries:', data.length, 'emotions');
       return data;
     },
     enabled: browserType === 'emotions'
@@ -191,7 +191,10 @@ export default function CodexBrowser() {
             </div>
             <div className="relative">
               <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Select value={selectedFamily} onValueChange={setSelectedFamily}>
+              <Select value={selectedFamily || "all"} onValueChange={(value) => {
+                console.log('🔄 Family filter changed to:', value);
+                setSelectedFamily(value === "all" ? "" : value);
+              }}>
                 <SelectTrigger className="pl-10">
                   <SelectValue placeholder="All Families" />
                 </SelectTrigger>
