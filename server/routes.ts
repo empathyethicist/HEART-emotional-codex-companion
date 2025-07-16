@@ -245,6 +245,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Load all individual emotion variants as separate entries
+  app.post("/api/emotions/load-all-variants", async (req: Request, res: Response) => {
+    try {
+      const allVariants = [
+        // JOY FAMILY VARIANTS
+        { referenceCode: "JOY-002", emotionFamily: "JOY", variant: "Elation", definition: "Heightened joy with feelings of triumph, celebration, or euphoria", intensityMin: 70, intensityMax: 100 },
+        { referenceCode: "JOY-003", emotionFamily: "JOY", variant: "Relief", definition: "Joy resulting from the cessation of anxiety, fear, or distress", intensityMin: 30, intensityMax: 80 },
+        { referenceCode: "JOY-004", emotionFamily: "JOY", variant: "Delight", definition: "A light, often momentary joy evoked by pleasure or satisfaction", intensityMin: 40, intensityMax: 70 },
+        { referenceCode: "JOY-005", emotionFamily: "JOY", variant: "Contentment", definition: "A sustained emotional state of calm joy and peaceful satisfaction", intensityMin: 30, intensityMax: 60 },
+        { referenceCode: "JOY-006", emotionFamily: "JOY", variant: "Bliss", definition: "Pure, transcendent happiness often with spiritual overtones", intensityMin: 80, intensityMax: 100 },
+        { referenceCode: "JOY-007", emotionFamily: "JOY", variant: "Euphoria", definition: "Intense elation often with reduced inhibition and heightened energy", intensityMin: 85, intensityMax: 100 },
+        { referenceCode: "JOY-008", emotionFamily: "JOY", variant: "Serenity", definition: "Peaceful joy characterized by tranquility and emotional balance", intensityMin: 25, intensityMax: 55 },
+        { referenceCode: "JOY-009", emotionFamily: "JOY", variant: "Glee", definition: "Exuberant joy with playful or mischievous undertones", intensityMin: 50, intensityMax: 85 },
+        { referenceCode: "JOY-010", emotionFamily: "JOY", variant: "Jubilation", definition: "Triumphant joy expressed with celebration and festivity", intensityMin: 70, intensityMax: 95 },
+        { referenceCode: "JOY-011", emotionFamily: "JOY", variant: "Rapture", definition: "Intense joy with overwhelming ecstatic experience", intensityMin: 80, intensityMax: 100 },
+        { referenceCode: "JOY-012", emotionFamily: "JOY", variant: "Satisfaction", definition: "Joy derived from fulfillment of needs or achievement of goals", intensityMin: 35, intensityMax: 75 },
+        { referenceCode: "JOY-013", emotionFamily: "JOY", variant: "Cheerfulness", definition: "Bright, optimistic joy that tends to be contagious", intensityMin: 40, intensityMax: 70 },
+        { referenceCode: "JOY-014", emotionFamily: "JOY", variant: "Exhilaration", definition: "Energizing joy often accompanied by physical stimulation", intensityMin: 65, intensityMax: 90 },
+        { referenceCode: "JOY-015", emotionFamily: "JOY", variant: "Merriment", definition: "Social joy expressed through laughter and celebration", intensityMin: 45, intensityMax: 80 },
+
+        // SADNESS FAMILY VARIANTS
+        { referenceCode: "SAD-002", emotionFamily: "SADNESS", variant: "Grief", definition: "Deep sorrow following significant personal loss", intensityMin: 60, intensityMax: 100 },
+        { referenceCode: "SAD-003", emotionFamily: "SADNESS", variant: "Disappointment", definition: "Sadness from unmet expectations or setbacks", intensityMin: 30, intensityMax: 70 },
+        { referenceCode: "SAD-004", emotionFamily: "SADNESS", variant: "Melancholy", definition: "Introspective sadness without a singular trigger", intensityMin: 40, intensityMax: 70 },
+        { referenceCode: "SAD-005", emotionFamily: "SADNESS", variant: "Despair", definition: "Overwhelming sadness combined with hopelessness", intensityMin: 70, intensityMax: 100 },
+        { referenceCode: "SAD-006", emotionFamily: "SADNESS", variant: "Sorrow", definition: "Deep emotional pain from loss or misfortune", intensityMin: 50, intensityMax: 90 },
+        { referenceCode: "SAD-007", emotionFamily: "SADNESS", variant: "Mourning", definition: "Ritualized expression of grief over loss", intensityMin: 60, intensityMax: 95 },
+        { referenceCode: "SAD-008", emotionFamily: "SADNESS", variant: "Regret", definition: "Sadness over past actions or missed opportunities", intensityMin: 40, intensityMax: 80 },
+        { referenceCode: "SAD-009", emotionFamily: "SADNESS", variant: "Heartbreak", definition: "Intense emotional pain from romantic loss or betrayal", intensityMin: 70, intensityMax: 100 },
+        { referenceCode: "SAD-010", emotionFamily: "SADNESS", variant: "Anguish", definition: "Severe mental or emotional distress", intensityMin: 75, intensityMax: 100 },
+        { referenceCode: "SAD-011", emotionFamily: "SADNESS", variant: "Desolation", definition: "Bleak sadness with sense of abandonment", intensityMin: 65, intensityMax: 95 },
+        { referenceCode: "SAD-012", emotionFamily: "SADNESS", variant: "Wistfulness", definition: "Gentle sadness tinged with longing", intensityMin: 25, intensityMax: 55 },
+        { referenceCode: "SAD-013", emotionFamily: "SADNESS", variant: "Dejection", definition: "Low spirits and discouragement", intensityMin: 45, intensityMax: 75 },
+        { referenceCode: "SAD-014", emotionFamily: "SADNESS", variant: "Lamentation", definition: "Expressive sadness with verbal or physical expression of grief", intensityMin: 55, intensityMax: 85 },
+
+        // ANGER FAMILY VARIANTS
+        { referenceCode: "ANG-002", emotionFamily: "ANGER", variant: "Frustration", definition: "Moderate anger from obstruction or inability to achieve goals", intensityMin: 30, intensityMax: 70 },
+        { referenceCode: "ANG-003", emotionFamily: "ANGER", variant: "Rage", definition: "High-intensity anger with reduced inhibition", intensityMin: 80, intensityMax: 100 },
+        { referenceCode: "ANG-004", emotionFamily: "ANGER", variant: "Resentment", definition: "Prolonged anger linked to injustice or betrayal", intensityMin: 40, intensityMax: 80 },
+        { referenceCode: "ANG-005", emotionFamily: "ANGER", variant: "Irritation", definition: "Low-level anger from minor disruptions", intensityMin: 20, intensityMax: 50 },
+        { referenceCode: "ANG-006", emotionFamily: "ANGER", variant: "Moral Outrage", definition: "Anger from witnessing injustice or harm", intensityMin: 60, intensityMax: 90 },
+        { referenceCode: "ANG-007", emotionFamily: "ANGER", variant: "Indignation", definition: "Righteous anger at unfair treatment", intensityMin: 50, intensityMax: 80 },
+        { referenceCode: "ANG-008", emotionFamily: "ANGER", variant: "Fury", definition: "Violent anger with potential for destructive action", intensityMin: 85, intensityMax: 100 },
+        { referenceCode: "ANG-009", emotionFamily: "ANGER", variant: "Annoyance", definition: "Mild anger at minor inconveniences", intensityMin: 15, intensityMax: 45 },
+        { referenceCode: "ANG-010", emotionFamily: "ANGER", variant: "Wrath", definition: "Divine or righteous anger with moral overtones", intensityMin: 90, intensityMax: 100 },
+        { referenceCode: "ANG-011", emotionFamily: "ANGER", variant: "Hostility", definition: "Aggressive anger directed at others", intensityMin: 60, intensityMax: 90 },
+        { referenceCode: "ANG-012", emotionFamily: "ANGER", variant: "Exasperation", definition: "Anger mixed with frustration at repeated issues", intensityMin: 40, intensityMax: 70 },
+        { referenceCode: "ANG-013", emotionFamily: "ANGER", variant: "Contempt", definition: "Disdainful anger viewing others as inferior", intensityMin: 50, intensityMax: 80 },
+        { referenceCode: "ANG-014", emotionFamily: "ANGER", variant: "Outrage", definition: "Anger at violation of moral or social standards", intensityMin: 70, intensityMax: 95 },
+
+        // FEAR FAMILY VARIANTS
+        { referenceCode: "FEA-002", emotionFamily: "FEAR", variant: "Anxiety", definition: "Persistent fear about potential future threats", intensityMin: 40, intensityMax: 80 },
+        { referenceCode: "FEA-003", emotionFamily: "FEAR", variant: "Dread", definition: "Intense fear about anticipated negative events", intensityMin: 60, intensityMax: 90 },
+        { referenceCode: "FEA-004", emotionFamily: "FEAR", variant: "Panic", definition: "Acute, overwhelming fear with physiological disruption", intensityMin: 80, intensityMax: 100 },
+        { referenceCode: "FEA-005", emotionFamily: "FEAR", variant: "Worry", definition: "Mild to moderate fear focused on specific concerns", intensityMin: 30, intensityMax: 60 },
+        { referenceCode: "FEA-006", emotionFamily: "FEAR", variant: "Terror", definition: "Extreme fear often with paralysis or flight response", intensityMin: 85, intensityMax: 100 },
+        { referenceCode: "FEA-007", emotionFamily: "FEAR", variant: "Apprehension", definition: "Mild fear or uneasiness about future events", intensityMin: 25, intensityMax: 55 },
+        { referenceCode: "FEA-008", emotionFamily: "FEAR", variant: "Phobia", definition: "Irrational, intense fear of specific objects or situations", intensityMin: 70, intensityMax: 95 },
+        { referenceCode: "FEA-009", emotionFamily: "FEAR", variant: "Nervousness", definition: "Mild fear with restlessness and tension", intensityMin: 20, intensityMax: 50 }
+      ];
+
+      // Add common properties to all variants
+      const processedVariants = allVariants.map(variant => ({
+        ...variant,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: [`${variant.emotionFamily.substring(0,3)}-001`],
+        triggers: ["trigger1", "trigger2", "trigger3"],
+        intensityMarkers: {
+          low: ["mild", "slight", "subtle"],
+          medium: ["moderate", "noticeable", "clear"],
+          high: ["intense", "strong", "overwhelming"]
+        }
+      }));
+
+      let created = 0;
+      for (const variant of processedVariants) {
+        try {
+          await storage.createEmotionEntry(variant);
+          created++;
+        } catch (error) {
+          console.log(`Variant ${variant.referenceCode} may already exist, skipping...`);
+        }
+      }
+
+      res.json({
+        success: true,
+        variants_created: created,
+        total_variants: processedVariants.length,
+        message: `Successfully loaded ${created} individual emotion variant entries`
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        error: "Failed to load all variants", 
+        details: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
   // Get CMOP by EMID
   app.get("/api/cmop/:emid", async (req, res) => {
     try {
