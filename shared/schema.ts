@@ -101,15 +101,6 @@ export const emotionProcessingResponseSchema = z.object({
     reasoning: z.string(),
   }).optional(),
   timestamp: z.string(),
-  huggingFaceAnalysis: z.object({
-    emotions: z.array(z.object({
-      label: z.string(),
-      score: z.number()
-    })),
-    primaryEmotion: z.string(),
-    confidence: z.number(),
-    modelUsed: z.string()
-  }).optional(),
 });
 
 export type EmotionProcessingRequest = z.infer<typeof emotionProcessingRequestSchema>;
