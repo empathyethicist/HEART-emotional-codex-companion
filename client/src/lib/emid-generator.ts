@@ -20,10 +20,16 @@ export class EmidGenerator {
     return EmidGenerator.instance;
   }
 
-  // Generate a new EMID following the format: USR009-EMOTION-TIMESTAMP-ID
-  generateEmid(emotionFamily: string): string {
+  // Generate a new EMID following the format: USR009-EMOTION-TIMESTAMP-ID-XXX
+  generateEmid(emotionFamily: string, variantCode?: string): string {
     const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
     const shortId = nanoid(6).toLowerCase();
+    
+    // If we have a specific variant code (like JOY-007), append the numerical portion
+    if (variantCode && variantCode.includes('-')) {
+      const numericPart = variantCode.split('-')[1]; // Extract "007" from "JOY-007"
+      return `USR009-${emotionFamily.toUpperCase()}-${timestamp}Z-${shortId}-${numericPart}`;
+    }
     
     return `USR009-${emotionFamily.toUpperCase()}-${timestamp}Z-${shortId}`;
   }
@@ -160,8 +166,8 @@ export class EmidGenerator {
 export const emidGenerator = EmidGenerator.getInstance();
 
 // Utility functions for common EMID operations
-export const generateEmid = (emotionFamily: string): string => {
-  return emidGenerator.generateEmid(emotionFamily);
+export const generateEmid = (emotionFamily: string, variantCode?: string): string => {
+  return emidGenerator.generateEmid(emotionFamily, variantCode);
 };
 
 export const validateEmid = (emid: string): boolean => {
