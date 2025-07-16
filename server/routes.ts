@@ -26,6 +26,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register Professional Analysis Routes
   registerProfessionalAnalysisRoutes(app);
   
+  // Import comprehensive codex builder
+  const { comprehensiveCodexBuilder } = await import("./services/comprehensive-codex-builder");
+  
   // Professional Emotion Processing with Comprehensive Codex™ Integration
   app.post("/api/emotions/process", async (req, res) => {
     try {
@@ -375,6 +378,20 @@ EMID: ${exportData.emid}`;
           variantsSkipped: results.skipped,
           errors: results.errors
         }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Build comprehensive emotion database with extended families
+  app.post("/api/admin/build-comprehensive-codex", async (req, res) => {
+    try {
+      const result = await comprehensiveCodexBuilder.buildComprehensiveEmotionDatabase();
+      
+      res.json({
+        message: "Comprehensive Emotional Codex™ database built successfully",
+        result
       });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
