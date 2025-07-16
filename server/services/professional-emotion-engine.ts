@@ -57,6 +57,60 @@ export class ProfessionalEmotionEngine {
     this.initializeProfessionalCodex();
     this.initializeAdvancedPatterns();
     this.initializeCulturalProfiles();
+    // Refresh codex from storage after construction
+    this.refreshCodexFromStorage();
+  }
+
+  /**
+   * Refresh codex from comprehensive storage database
+   */
+  private async refreshCodexFromStorage() {
+    try {
+      const { storage } = await import("../storage");
+      const allEmotions = await storage.getAllEmotionEntries();
+      
+      // Add new emotions from comprehensive database
+      for (const emotion of allEmotions) {
+        // Transform storage format to Professional Codex format
+        const codexEntry = {
+          code: emotion.referenceCode,
+          name: emotion.variant,
+          definition: emotion.definition,
+          layer: 'Surface',
+          intensity_range: [emotion.intensityMin / 100, emotion.intensityMax / 100],
+          cultural_universality: emotion.culturalUniversality,
+          associated_states: emotion.triggers || [],
+          blendable_with: emotion.blendableWith || [],
+          variants: emotion.variants || {},
+          cultural_modulation: {},
+          tone_classifications: this.inferToneClassifications(emotion.emotionFamily),
+          heart_notes: `Professional Codex™ entry for ${emotion.emotionFamily} family`
+        };
+        
+        this.codex.set(emotion.referenceCode, codexEntry);
+      }
+      
+      console.log(`Professional Emotion Engine loaded ${this.codex.size} emotions from comprehensive codex`);
+    } catch (error) {
+      console.log('Professional Emotion Engine using static codex only');
+    }
+  }
+
+  private inferToneClassifications(emotionFamily: string): string[] {
+    const toneMapping: Record<string, string[]> = {
+      'JOY': ['T004', 'T007', 'T008'],
+      'SADNESS': ['T001', 'T003', 'T005'],
+      'ANGER': ['T002', 'T006', 'T008'],
+      'FEAR': ['T001', 'T003', 'T006'],
+      'LOVE': ['T004', 'T005', 'T008'],
+      'SURPRISE': ['T004', 'T007'],
+      'DISGUST': ['T002', 'T005'],
+      'TRUST': ['T004', 'T005'],
+      'GUILT': ['T001', 'T003'],
+      'SHAME': ['T001', 'T002'],
+      'HOPE': ['T004', 'T007']
+    };
+    return toneMapping[emotionFamily] || ['T004', 'T005'];
   }
 
   private initializeProfessionalCodex() {
@@ -446,8 +500,35 @@ export class ProfessionalEmotionEngine {
       'passion': { codes: ['LOV-001'], weight: 0.9 },
       'affection': { codes: ['LOV-001'], weight: 0.7 },
       'drowning': { codes: ['FEA-001', 'SAD-001'], weight: 0.8 },
-      'hope': { codes: ['JOY-001'], weight: 0.6 },
-      'hopeless': { codes: ['SAD-001'], weight: 0.8 }
+      'hope': { codes: ['HOP-001', 'JOY-001'], weight: 0.6 },
+      'hopeless': { codes: ['SAD-001'], weight: 0.8 },
+      'trust': { codes: ['TRU-001'], weight: 0.8 },
+      'faith': { codes: ['TRU-001', 'HOP-001'], weight: 0.8 },
+      'confidence': { codes: ['TRU-001'], weight: 0.7 },
+      'security': { codes: ['TRU-001'], weight: 0.7 },
+      'loyalty': { codes: ['TRU-001'], weight: 0.8 },
+      'disgust': { codes: ['DIS-001'], weight: 0.8 },
+      'disgusted': { codes: ['DIS-001'], weight: 0.8 },
+      'revolted': { codes: ['DIS-001'], weight: 0.9 },
+      'repulsed': { codes: ['DIS-001'], weight: 0.8 },
+      'nausea': { codes: ['DIS-001'], weight: 0.7 },
+      'contempt': { codes: ['DIS-001'], weight: 0.8 },
+      'guilt': { codes: ['GUI-001'], weight: 0.8 },
+      'guilty': { codes: ['GUI-001'], weight: 0.8 },
+      'remorse': { codes: ['GUI-001'], weight: 0.9 },
+      'regret': { codes: ['GUI-001'], weight: 0.7 },
+      'shame': { codes: ['SHA-001'], weight: 0.8 },
+      'ashamed': { codes: ['SHA-001'], weight: 0.8 },
+      'embarrassed': { codes: ['SHA-001'], weight: 0.7 },
+      'humiliated': { codes: ['SHA-001'], weight: 0.9 },
+      'surprised': { codes: ['SUR-001'], weight: 0.8 },
+      'amazed': { codes: ['SUR-001'], weight: 0.8 },
+      'astonished': { codes: ['SUR-001'], weight: 0.9 },
+      'shocked': { codes: ['SUR-001'], weight: 0.9 },
+      'wonder': { codes: ['SUR-001'], weight: 0.7 },
+      'optimistic': { codes: ['HOP-001'], weight: 0.7 },
+      'anticipation': { codes: ['HOP-001'], weight: 0.7 },
+      'aspiration': { codes: ['HOP-001'], weight: 0.6 }
     };
     
     for (const [keyword, data] of Object.entries(emotionKeywords)) {
