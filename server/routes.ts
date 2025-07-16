@@ -16,70 +16,118 @@ import { cipRubricService } from "./services/cip-rubric";
 import { codexIntegrationService } from "./services/codex-integration";
 import { toneClassifierService } from "./services/tone-classifier";
 import { culturalExpressionModifierService } from "./services/cultural-expression-modifier";
+import { professionalEmotionEngine } from "./services/professional-emotion-engine";
+import { heartAlignmentValidator } from "./services/heart-alignment-validator";
+import { registerProfessionalAnalysisRoutes } from "./routes/professional-analysis";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // Process emotion input
+  // Register Professional Analysis Routes
+  registerProfessionalAnalysisRoutes(app);
+  
+  // Professional Emotion Processing with Comprehensive Codex™ Integration
   app.post("/api/emotions/process", async (req, res) => {
     try {
       const data = emotionProcessingRequestSchema.parse(req.body);
       
-      // Find emotion match using codex
-      const emotionMatch = emotionCodexService.findEmotionMatch(data.inputPhrase);
-      
-      if (!emotionMatch) {
-        return res.status(404).json({ 
-          message: "No emotion match found. Consider using manual entry.",
-          suggestions: emotionCodexService.searchEmotions(data.inputPhrase).slice(0, 3)
-        });
-      }
-
-      // Perform SAL analysis
-      const salAnalysis = salDetector.analyzeSymbolicContent(data.inputPhrase);
-      
-      // Apply cultural overlay
-      let culturalContext = data.culturalContext;
-      if (culturalContext === "Auto-detect") {
-        culturalContext = culturalOverlayService.detectCulturalContext(data.inputPhrase);
-      }
-      
-      const culturalOverlay = culturalOverlayService.applyCulturalOverlay(
-        emotionMatch.emotion,
-        data.inputPhrase,
-        culturalContext!,
-        emotionMatch.intensity
+      // Use Professional Emotion Engine for comprehensive analysis
+      const emotionAnalysis = await professionalEmotionEngine.analyzeEmotion(
+        data.inputPhrase, 
+        data.culturalContext === "Auto-detect" ? undefined : data.culturalContext
       );
 
-      // Adjust intensity based on cultural context
-      const adjustedIntensity = Math.max(0, Math.min(1, 
-        emotionMatch.intensity + culturalOverlay.recommendedIntensityAdjustment
-      ));
+      if (!emotionAnalysis) {
+        // Fallback to original codex service for backward compatibility
+        const fallbackMatch = emotionCodexService.findEmotionMatch(data.inputPhrase);
+        if (!fallbackMatch) {
+          return res.status(404).json({ 
+            message: "No emotion match found in Professional Codex. Consider using manual entry.",
+            suggestions: emotionCodexService.searchEmotions(data.inputPhrase).slice(0, 3)
+          });
+        }
+        
+        // Process with fallback approach
+        const salAnalysis = salDetector.analyzeSymbolicContent(data.inputPhrase);
+        const emid = generateEmid(fallbackMatch.emotion);
+        
+        const cmopEntry = await storage.createCmopEntry({
+          emid,
+          inputPhrase: data.inputPhrase,
+          emotionFamily: fallbackMatch.emotion,
+          variant: fallbackMatch.variant || null,
+          codexReference: fallbackMatch.referenceCode,
+          intensity: Math.round(fallbackMatch.intensity * 100),
+          blendableWith: fallbackMatch.blendableWith,
+          symbolicReference: salAnalysis.archetype,
+          culturalTag: "Auto-detected",
+          confidence: Math.round(fallbackMatch.confidence * 100),
+          salAnalysis: {
+            symbolicPatterns: salAnalysis.symbolicPatterns,
+            archetype: salAnalysis.archetype,
+            reasoning: salAnalysis.reasoning
+          }
+        });
 
-      // Detect blended emotions from SAL
-      const salBlends = salDetector.detectBlendedEmotions(salAnalysis.symbolicPatterns, emotionMatch.emotion);
-      const allBlends = Array.from(new Set([...emotionMatch.blendableWith, ...salBlends]));
+        const response: EmotionProcessingResponse = {
+          emid: cmopEntry.emid,
+          inputPhrase: cmopEntry.inputPhrase,
+          emotionFamily: cmopEntry.emotionFamily,
+          variant: cmopEntry.variant || undefined,
+          codexReference: cmopEntry.codexReference,
+          intensity: cmopEntry.intensity / 100,
+          blendableWith: cmopEntry.blendableWith || [],
+          symbolicReference: cmopEntry.symbolicReference || undefined,
+          culturalTag: cmopEntry.culturalTag || "",
+          confidence: cmopEntry.confidence / 100,
+          salAnalysis: cmopEntry.salAnalysis || undefined,
+          timestamp: cmopEntry.timestamp.toISOString()
+        };
 
-      // Generate EMID
-      const emid = generateEmid(emotionMatch.emotion);
+        return res.json(response);
+      }
+
+      // HEART™ Alignment Validation for professional processing
+      const heartValidation = heartAlignmentValidator.validateEmotionalProcessing({
+        emotion_code: emotionAnalysis.codex_reference,
+        input_phrase: data.inputPhrase,
+        cultural_context: emotionAnalysis.cultural_context,
+        intensity: emotionAnalysis.intensity,
+        processing_context: data.processingMode === "Research Mode" ? "research" : 
+                           data.processingMode === "Therapist Mode" ? "therapeutic" : "development",
+        user_consent_level: "implied"
+      });
+
+      // Enhanced SAL Analysis with symbolic mapping integration
+      const salAnalysis = salDetector.analyzeSymbolicContent(data.inputPhrase);
+
+      // Generate EMID with professional emotion code
+      const emid = generateEmid(emotionAnalysis.primary_emotion.name);
       
-      // Create CMOP entry
+      // Create comprehensive CMOP entry with professional analysis
       const cmopEntry = await storage.createCmopEntry({
         emid,
         inputPhrase: data.inputPhrase,
-        emotionFamily: emotionMatch.emotion,
-        variant: emotionMatch.variant || null,
-        codexReference: emotionMatch.referenceCode,
-        intensity: Math.round(adjustedIntensity * 100), // Store as integer 0-100
-        blendableWith: allBlends,
-        symbolicReference: salAnalysis.archetype,
-        culturalTag: culturalOverlay.culturalTag,
-        confidence: Math.round(emotionMatch.confidence * 100), // Store as integer 0-100
-        salAnalysis: salAnalysis ? {
-          symbolicPatterns: salAnalysis.symbolicPatterns,
-          archetype: salAnalysis.archetype,
-          reasoning: salAnalysis.reasoning
-        } : null
+        emotionFamily: emotionAnalysis.primary_emotion.name,
+        variant: emotionAnalysis.variant?.name || null,
+        codexReference: emotionAnalysis.codex_reference,
+        intensity: Math.round(emotionAnalysis.intensity * 100), // Store as integer 0-100
+        blendableWith: emotionAnalysis.blended_states,
+        symbolicReference: emotionAnalysis.symbolic_mapping.archetype,
+        culturalTag: emotionAnalysis.cultural_context,
+        confidence: Math.round(emotionAnalysis.confidence * 100), // Store as integer 0-100
+        salAnalysis: {
+          symbolicPatterns: [
+            ...(Array.isArray(salAnalysis.symbolicPatterns) ? salAnalysis.symbolicPatterns : []),
+            ...(Array.isArray(emotionAnalysis.symbolic_mapping.patterns) ? emotionAnalysis.symbolic_mapping.patterns : [])
+          ],
+          archetype: emotionAnalysis.symbolic_mapping.archetype,
+          reasoning: `Professional Codex™ Analysis: ${emotionAnalysis.symbolic_mapping.emotional_journey}. Enhanced with: ${salAnalysis.reasoning}`,
+          tone_classification: emotionAnalysis.tone_classification,
+          heart_alignment: emotionAnalysis.heart_alignment,
+          professional_confidence: emotionAnalysis.confidence,
+          heart_validation: heartValidation
+        }
       });
 
       const response: EmotionProcessingResponse = {
@@ -94,7 +142,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         culturalTag: cmopEntry.culturalTag || "",
         confidence: cmopEntry.confidence / 100, // Convert back to 0-1 scale
         salAnalysis: cmopEntry.salAnalysis || undefined,
-        timestamp: cmopEntry.timestamp.toISOString()
+        timestamp: cmopEntry.timestamp.toISOString(),
+        // Enhanced professional fields
+        professional_analysis: {
+          primary_emotion: emotionAnalysis.primary_emotion,
+          variant: emotionAnalysis.variant,
+          symbolic_mapping: emotionAnalysis.symbolic_mapping,
+          tone_classification: emotionAnalysis.tone_classification,
+          heart_validation: heartValidation
+        }
       };
 
       res.json(response);
