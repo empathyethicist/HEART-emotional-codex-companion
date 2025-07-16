@@ -16,7 +16,6 @@ import { cipRubricService } from "./services/cip-rubric";
 import { codexIntegrationService } from "./services/codex-integration";
 import { toneClassifierService } from "./services/tone-classifier";
 import { culturalExpressionModifierService } from "./services/cultural-expression-modifier";
-import { huggingFaceService } from "./services/huggingface-integration";
 import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -26,25 +25,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const data = emotionProcessingRequestSchema.parse(req.body);
       
-      // Try Hugging Face analysis first if available
-      let huggingFaceAnalysis = null;
-      if (huggingFaceService.isAvailable()) {
-        huggingFaceAnalysis = await huggingFaceService.analyzeEmotion(data.inputPhrase);
-      }
-
       // Find emotion match using codex
       const emotionMatch = emotionCodexService.findEmotionMatch(data.inputPhrase);
       
       if (!emotionMatch) {
-        // If HF analysis is available, suggest emotions based on AI analysis
-        const suggestions = huggingFaceAnalysis 
-          ? huggingFaceAnalysis.emotions.slice(0, 3).map(e => ({ family: e.label, confidence: e.score }))
-          : emotionCodexService.searchEmotions(data.inputPhrase).slice(0, 3);
-          
         return res.status(404).json({ 
           message: "No emotion match found. Consider using manual entry.",
-          suggestions,
-          huggingFaceAnalysis
+          suggestions: emotionCodexService.searchEmotions(data.inputPhrase).slice(0, 3)
         });
       }
 
@@ -107,8 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         culturalTag: cmopEntry.culturalTag || "",
         confidence: cmopEntry.confidence / 100, // Convert back to 0-1 scale
         salAnalysis: cmopEntry.salAnalysis || undefined,
-        timestamp: cmopEntry.timestamp.toISOString(),
-        huggingFaceAnalysis: huggingFaceAnalysis || undefined
+        timestamp: cmopEntry.timestamp.toISOString()
       };
 
       res.json(response);
@@ -514,114 +500,6 @@ EMID: ${exportData.emid}`;
     try {
       const profiles = culturalExpressionModifierService.getAllCulturalProfiles();
       res.json(profiles);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Hugging Face AI-powered endpoints
-  
-  // Analyze emotion using AI
-  app.post("/api/ai/analyze-emotion", async (req, res) => {
-    try {
-      const { text } = req.body;
-      
-      if (!text) {
-        return res.status(400).json({ message: "Text is required for analysis" });
-      }
-
-      const analysis = await huggingFaceService.analyzeEmotion(text);
-      
-      if (!analysis) {
-        return res.status(503).json({ 
-          message: "Hugging Face service unavailable", 
-          status: huggingFaceService.getStatus() 
-        });
-      }
-
-      res.json(analysis);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Generate emotion description using AI
-  app.post("/api/ai/generate-description", async (req, res) => {
-    try {
-      const { emotionName, context } = req.body;
-      
-      if (!emotionName) {
-        return res.status(400).json({ message: "Emotion name is required" });
-      }
-
-      const description = await huggingFaceService.generateEmotionDescription(emotionName, context);
-      
-      if (!description) {
-        return res.status(503).json({ 
-          message: "Hugging Face service unavailable", 
-          status: huggingFaceService.getStatus() 
-        });
-      }
-
-      res.json({ description });
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Enhance emotion codex entry using AI
-  app.post("/api/ai/enhance-codex", async (req, res) => {
-    try {
-      const { emotionFamily, description } = req.body;
-      
-      if (!emotionFamily || !description) {
-        return res.status(400).json({ message: "Emotion family and description are required" });
-      }
-
-      const enhancement = await huggingFaceService.enhanceEmotionCodex(emotionFamily, description);
-      
-      if (!enhancement) {
-        return res.status(503).json({ 
-          message: "Hugging Face service unavailable", 
-          status: huggingFaceService.getStatus() 
-        });
-      }
-
-      res.json(enhancement);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Analyze sentiment using AI
-  app.post("/api/ai/analyze-sentiment", async (req, res) => {
-    try {
-      const { text } = req.body;
-      
-      if (!text) {
-        return res.status(400).json({ message: "Text is required for sentiment analysis" });
-      }
-
-      const sentiment = await huggingFaceService.analyzeSentiment(text);
-      
-      if (!sentiment) {
-        return res.status(503).json({ 
-          message: "Hugging Face service unavailable", 
-          status: huggingFaceService.getStatus() 
-        });
-      }
-
-      res.json(sentiment);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Get Hugging Face service status
-  app.get("/api/ai/status", async (req, res) => {
-    try {
-      const status = huggingFaceService.getStatus();
-      res.json(status);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
