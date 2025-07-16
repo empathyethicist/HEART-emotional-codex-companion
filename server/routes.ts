@@ -104,8 +104,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Enhanced SAL Analysis with symbolic mapping integration
       const salAnalysis = salDetector.analyzeSymbolicContent(data.inputPhrase);
 
-      // Generate EMID with professional emotion code
-      const emid = generateEmid(emotionAnalysis.primary_emotion.name);
+      // Generate EMID with professional emotion code and variant
+      const variantCode = emotionAnalysis.variant?.code || emotionAnalysis.primary_emotion.code;
+      const emid = generateEmid(emotionAnalysis.primary_emotion.name, variantCode);
       
       // Create comprehensive CMOP entry with professional analysis
       const cmopEntry = await storage.createCmopEntry({
@@ -170,8 +171,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get emotion entries from storage instead of codex service
       let emotionEntries = await storage.getAllEmotionEntries();
       
-      // Filter by family if specified
-      if (family) {
+      // Filter by family if specified - show ALL variants in that family
+      if (family && family !== 'all') {
         emotionEntries = emotionEntries.filter(entry => entry.emotionFamily === family);
       }
       
@@ -197,9 +198,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           variants: entry.variants,
           blendable_with: entry.blendableWith,
           triggers: entry.triggers,
-          intensity_markers: entry.intensityMarkers
+          intensity_markers: entry.intensityMarkers,
+          variant_name: entry.variant // Add variant name for display
         }
       }));
+      
+      console.log(`🔍 API: Returning ${formatted.length} emotion entries for family: ${family || 'all'}`);
       
       res.json(formatted);
     } catch (error: any) {
