@@ -50,7 +50,7 @@ export class ComprehensiveCodexBuilder {
 
   private getComprehensiveEmotionData(): InsertEmotionEntry[] {
     return [
-      // JOY FAMILY - Extended
+      // JOY FAMILY - Primary Entry
       {
         referenceCode: "JOY-001",
         emotionFamily: "JOY",
@@ -84,7 +84,77 @@ export class ComprehensiveCodexBuilder {
         }
       },
 
-      // SADNESS FAMILY - Extended
+      // JOY VARIANTS - Individual Entries
+      {
+        referenceCode: "JOY-002",
+        emotionFamily: "JOY",
+        variant: "Elation",
+        definition: "Heightened joy with feelings of triumph, celebration, or euphoria",
+        intensityMin: 70,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["JOY-001", "SUR-001", "TRU-001"],
+        triggers: ["victory", "triumph", "celebration", "recognition", "breakthrough"],
+        intensityMarkers: {
+          low: ["pleased", "uplifted", "brightened"],
+          medium: ["elated", "triumphant", "exuberant"],
+          high: ["euphoric", "ecstatic", "over the moon"]
+        }
+      },
+      {
+        referenceCode: "JOY-003",
+        emotionFamily: "JOY",
+        variant: "Relief",
+        definition: "Joy resulting from the cessation of anxiety, fear, or distress",
+        intensityMin: 30,
+        intensityMax: 80,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["JOY-001", "FEA-001", "SAD-001"],
+        triggers: ["problem_solved", "danger_passed", "stress_removed", "recovery", "escape"],
+        intensityMarkers: {
+          low: ["eased", "calmed", "settled"],
+          medium: ["relieved", "unburdened", "freed"],
+          high: ["overwhelmingly relieved", "profoundly freed", "completely unburdened"]
+        }
+      },
+      {
+        referenceCode: "JOY-004",
+        emotionFamily: "JOY",
+        variant: "Delight",
+        definition: "A light, often momentary joy evoked by pleasure or satisfaction",
+        intensityMin: 40,
+        intensityMax: 70,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["JOY-001", "SUR-001", "CUR-001"],
+        triggers: ["pleasant_surprise", "charm", "beauty", "humor", "novelty"],
+        intensityMarkers: {
+          low: ["pleased", "charmed", "amused"],
+          medium: ["delighted", "enchanted", "tickled"],
+          high: ["absolutely delighted", "utterly charmed", "completely enchanted"]
+        }
+      },
+      {
+        referenceCode: "JOY-007",
+        emotionFamily: "JOY",
+        variant: "Euphoria",
+        definition: "Intense elation often with reduced inhibition and heightened energy",
+        intensityMin: 85,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["JOY-001", "JOY-002", "SUR-001"],
+        triggers: ["extreme_success", "peak_experience", "overwhelming_joy", "life_changing_event"],
+        intensityMarkers: {
+          low: ["highly elated", "extremely happy", "intensely joyful"],
+          medium: ["euphoric", "ecstatic", "blissful"],
+          high: ["transcendently joyful", "overwhelmingly euphoric", "rapturous"]
+        }
+      },
+
+      // SADNESS FAMILY - Primary Entry
       {
         referenceCode: "SAD-001",
         emotionFamily: "SADNESS",
@@ -117,7 +187,60 @@ export class ComprehensiveCodexBuilder {
         }
       },
 
-      // ANGER FAMILY - Extended
+      // SADNESS VARIANTS - Individual Entries
+      {
+        referenceCode: "SAD-002",
+        emotionFamily: "SADNESS",
+        variant: "Grief",
+        definition: "Deep sorrow following significant personal loss",
+        intensityMin: 60,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["SAD-001", "LOV-001", "FEA-001"],
+        triggers: ["death", "loss", "separation", "ending", "bereavement"],
+        intensityMarkers: {
+          low: ["sorrowful", "mournful", "heavy-hearted"],
+          medium: ["grieving", "bereaved", "devastated"],
+          high: ["inconsolable", "shattered", "utterly broken"]
+        }
+      },
+      {
+        referenceCode: "SAD-010",
+        emotionFamily: "SADNESS",
+        variant: "Anguish",
+        definition: "Severe mental or emotional distress",
+        intensityMin: 75,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["SAD-001", "FEA-001", "GUI-001"],
+        triggers: ["extreme_pain", "torment", "agony", "suffering", "torture"],
+        intensityMarkers: {
+          low: ["deeply distressed", "severely troubled", "tormented"],
+          medium: ["anguished", "tortured", "in agony"],
+          high: ["in excruciating anguish", "utterly tormented", "beyond despair"]
+        }
+      },
+      {
+        referenceCode: "SAD-011",
+        emotionFamily: "SADNESS",
+        variant: "Desolation",
+        definition: "Bleak sadness with sense of abandonment",
+        intensityMin: 65,
+        intensityMax: 95,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["SAD-001", "LON-001", "HEL-001"],
+        triggers: ["abandonment", "isolation", "emptiness", "barrenness", "forsaken"],
+        intensityMarkers: {
+          low: ["lonely", "empty", "abandoned"],
+          medium: ["desolate", "forsaken", "utterly alone"],
+          high: ["completely desolate", "absolutely forsaken", "profoundly empty"]
+        }
+      },
+
+      // ANGER FAMILY - Primary Entry
       {
         referenceCode: "ANG-001",
         emotionFamily: "ANGER",
@@ -150,7 +273,60 @@ export class ComprehensiveCodexBuilder {
         }
       },
 
-      // FEAR FAMILY - Extended
+      // ANGER VARIANTS - Individual Entries
+      {
+        referenceCode: "ANG-010",
+        emotionFamily: "ANGER",
+        variant: "Wrath",
+        definition: "Divine or righteous anger with moral overtones",
+        intensityMin: 90,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["ANG-001", "DIS-001", "FEA-001"],
+        triggers: ["moral_violation", "injustice", "betrayal", "sacred_transgression"],
+        intensityMarkers: {
+          low: ["righteously angry", "morally outraged", "justifiably furious"],
+          medium: ["wrathful", "filled with wrath", "divinely angry"],
+          high: ["consumed by wrath", "terrible in wrath", "wrathful beyond measure"]
+        }
+      },
+      {
+        referenceCode: "ANG-014",
+        emotionFamily: "ANGER",
+        variant: "Outrage",
+        definition: "Anger at violation of moral or social standards",
+        intensityMin: 70,
+        intensityMax: 95,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["ANG-001", "DIS-001", "SHA-001"],
+        triggers: ["violation", "abuse", "corruption", "scandal", "injustice"],
+        intensityMarkers: {
+          low: ["offended", "scandalized", "morally upset"],
+          medium: ["outraged", "appalled", "horrified"],
+          high: ["absolutely outraged", "utterly appalled", "profoundly scandalized"]
+        }
+      },
+      {
+        referenceCode: "ANG-003",
+        emotionFamily: "ANGER",
+        variant: "Rage",
+        definition: "High-intensity anger with reduced inhibition",
+        intensityMin: 80,
+        intensityMax: 100,
+        culturalUniversality: "High",
+        variants: {},
+        blendableWith: ["ANG-001", "FEA-001", "HEL-001"],
+        triggers: ["extreme_provocation", "violence", "attack", "violation", "betrayal"],
+        intensityMarkers: {
+          low: ["extremely angry", "furiously mad", "violently upset"],
+          medium: ["raging", "in a rage", "consumed with rage"],
+          high: ["blind with rage", "uncontrollable rage", "savage fury"]
+        }
+      },
+
+      // FEAR FAMILY - Primary Entry
       {
         referenceCode: "FEA-001",
         emotionFamily: "FEAR",
