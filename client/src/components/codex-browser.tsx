@@ -34,7 +34,7 @@ export default function CodexBrowser() {
   const [browserType, setBrowserType] = useState<BrowserType>('emotions');
 
   // Fetch emotion codex entries
-  const { data: codexEntries = [], isLoading: isLoadingEmotions } = useQuery<CodexEntry[]>({
+  const { data: codexEntries = [], isLoading: isLoadingEmotions, error } = useQuery<CodexEntry[]>({
     queryKey: ["/api/emotions/codex", { search: searchQuery, family: selectedFamily !== "all" ? selectedFamily : undefined }],
     queryFn: async () => {
       const params = new URLSearchParams();
@@ -43,7 +43,9 @@ export default function CodexBrowser() {
       
       const response = await fetch(`/api/emotions/codex?${params}`);
       if (!response.ok) throw new Error('Failed to fetch codex entries');
-      return response.json();
+      const data = await response.json();
+      console.log('🔍 Fetched codex entries:', data);
+      return data;
     },
     enabled: browserType === 'emotions'
   });
@@ -84,6 +86,16 @@ export default function CodexBrowser() {
   };
 
   const isLoading = isLoadingEmotions || isLoadingTones || isLoadingCultures;
+  
+  // Debug logging
+  console.log('🚀 CodexBrowser state:', {
+    browserType,
+    isLoading,
+    codexEntriesLength: codexEntries.length,
+    error: error?.message,
+    searchQuery,
+    selectedFamily
+  });
 
   if (isLoading) {
     return (
