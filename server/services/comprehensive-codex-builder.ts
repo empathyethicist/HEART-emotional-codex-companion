@@ -66,7 +66,14 @@ export class ComprehensiveCodexBuilder {
           "JOY-005": { name: "Contentment", intensity_range: [30, 60], definition: "A sustained emotional state of calm joy and peaceful satisfaction" },
           "JOY-006": { name: "Bliss", intensity_range: [80, 100], definition: "Pure, transcendent happiness often with spiritual overtones" },
           "JOY-007": { name: "Euphoria", intensity_range: [85, 100], definition: "Intense elation often with reduced inhibition and heightened energy" },
-          "JOY-008": { name: "Serenity", intensity_range: [25, 55], definition: "Peaceful joy characterized by tranquility and emotional balance" }
+          "JOY-008": { name: "Serenity", intensity_range: [25, 55], definition: "Peaceful joy characterized by tranquility and emotional balance" },
+          "JOY-009": { name: "Glee", intensity_range: [50, 85], definition: "Exuberant joy with playful or mischievous undertones" },
+          "JOY-010": { name: "Jubilation", intensity_range: [70, 95], definition: "Triumphant joy expressed with celebration and festivity" },
+          "JOY-011": { name: "Rapture", intensity_range: [80, 100], definition: "Intense joy with overwhelming ecstatic experience" },
+          "JOY-012": { name: "Satisfaction", intensity_range: [35, 75], definition: "Joy derived from fulfillment of needs or achievement of goals" },
+          "JOY-013": { name: "Cheerfulness", intensity_range: [40, 70], definition: "Bright, optimistic joy that tends to be contagious" },
+          "JOY-014": { name: "Exhilaration", intensity_range: [65, 90], definition: "Energizing joy often accompanied by physical stimulation" },
+          "JOY-015": { name: "Merriment", intensity_range: [45, 80], definition: "Social joy expressed through laughter and celebration" }
         },
         blendableWith: ["SUR-001", "LOV-001", "TRU-001", "GRA-001", "HOP-001"],
         triggers: ["achievement", "success", "positive_feedback", "celebration", "love", "gratitude", "relief", "beauty", "harmony", "accomplishment"],
@@ -94,7 +101,12 @@ export class ComprehensiveCodexBuilder {
           "SAD-006": { name: "Sorrow", intensity_range: [50, 90], definition: "Deep emotional pain from loss or misfortune" },
           "SAD-007": { name: "Mourning", intensity_range: [60, 95], definition: "Ritualized expression of grief over loss" },
           "SAD-008": { name: "Regret", intensity_range: [40, 80], definition: "Sadness over past actions or missed opportunities" },
-          "SAD-009": { name: "Heartbreak", intensity_range: [70, 100], definition: "Intense emotional pain from romantic loss or betrayal" }
+          "SAD-009": { name: "Heartbreak", intensity_range: [70, 100], definition: "Intense emotional pain from romantic loss or betrayal" },
+          "SAD-010": { name: "Anguish", intensity_range: [75, 100], definition: "Severe mental or emotional distress" },
+          "SAD-011": { name: "Desolation", intensity_range: [65, 95], definition: "Bleak sadness with sense of abandonment" },
+          "SAD-012": { name: "Wistfulness", intensity_range: [25, 55], definition: "Gentle sadness tinged with longing" },
+          "SAD-013": { name: "Dejection", intensity_range: [45, 75], definition: "Low spirits and discouragement" },
+          "SAD-014": { name: "Lamentation", intensity_range: [55, 85], definition: "Expressive sadness with verbal or physical expression of grief" }
         },
         blendableWith: ["LOV-001", "GUI-001", "SHA-001", "FEA-001", "ANG-001", "LON-001"],
         triggers: ["loss", "death", "breakup", "failure", "rejection", "disappointment", "betrayal", "isolation", "unmet_expectations", "memories"],
@@ -122,7 +134,12 @@ export class ComprehensiveCodexBuilder {
           "ANG-006": { name: "Moral Outrage", intensity_range: [60, 90], definition: "Anger from witnessing injustice or harm" },
           "ANG-007": { name: "Indignation", intensity_range: [50, 80], definition: "Righteous anger at unfair treatment" },
           "ANG-008": { name: "Fury", intensity_range: [85, 100], definition: "Violent anger with potential for destructive action" },
-          "ANG-009": { name: "Annoyance", intensity_range: [15, 45], definition: "Mild anger at minor inconveniences" }
+          "ANG-009": { name: "Annoyance", intensity_range: [15, 45], definition: "Mild anger at minor inconveniences" },
+          "ANG-010": { name: "Wrath", intensity_range: [90, 100], definition: "Divine or righteous anger with moral overtones" },
+          "ANG-011": { name: "Hostility", intensity_range: [60, 90], definition: "Aggressive anger directed at others" },
+          "ANG-012": { name: "Exasperation", intensity_range: [40, 70], definition: "Anger mixed with frustration at repeated issues" },
+          "ANG-013": { name: "Contempt", intensity_range: [50, 80], definition: "Disdainful anger viewing others as inferior" },
+          "ANG-014": { name: "Outrage", intensity_range: [70, 95], definition: "Anger at violation of moral or social standards" }
         },
         blendableWith: ["FEA-001", "DIS-001", "GUI-001", "SAD-001", "SHA-001"],
         triggers: ["injustice", "betrayal", "obstruction", "disrespect", "violation", "incompetence", "unfairness", "threat", "criticism", "control"],
