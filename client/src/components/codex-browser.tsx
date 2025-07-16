@@ -209,13 +209,49 @@ export default function CodexBrowser() {
 
         {/* Content Display based on browser type */}
         {browserType === 'emotions' && (
-          <EmotionsDisplay 
-            codexEntries={codexEntries} 
-            searchQuery={searchQuery}
-            selectedFamily={selectedFamily}
-            getReferenceColor={getReferenceColor}
-            getUniversalityColor={getUniversalityColor}
-          />
+          <>
+            {/* Statistics Display */}
+            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div>
+                  <div className="text-2xl font-bold text-primary">{codexEntries.length}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Emotion Families</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-blue-600">
+                    {codexEntries.reduce((total, entry) => 
+                      total + (entry.data.variants ? Object.keys(entry.data.variants).length : 0), 0
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Variants</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {codexEntries.reduce((total, entry) => 
+                      total + (entry.data.triggers ? entry.data.triggers.length : 0), 0
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Triggers</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {codexEntries.reduce((total, entry) => 
+                      total + (entry.data.blendable_with ? entry.data.blendable_with.length : 0), 0
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Blendable</div>
+                </div>
+              </div>
+            </div>
+
+            <EmotionsDisplay 
+              codexEntries={codexEntries} 
+              searchQuery={searchQuery}
+              selectedFamily={selectedFamily}
+              getReferenceColor={getReferenceColor}
+              getUniversalityColor={getUniversalityColor}
+            />
+          </>
         )}
 
         {browserType === 'tone-codes' && <ToneCodesDisplay toneCodes={toneCodes} />}
@@ -259,13 +295,39 @@ function EmotionsDisplay({
         </div>
       ) : (
         codexEntries.map((entry, index) => (
-          <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 interactive-card">
+          <div 
+            key={index} 
+            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 interactive-card hover:border-primary/50 hover:shadow-md transition-all duration-200 cursor-pointer"
+            onClick={() => {
+              // Show detailed information in console for now
+              console.log('🧠 Emotional Codex™ Entry:', {
+                family: entry.family,
+                code: entry.data.reference_code,
+                definition: entry.data.definition,
+                variants: entry.data.variants ? Object.keys(entry.data.variants).length : 0,
+                universality: entry.data.cultural_universality,
+                intensity_range: entry.data.intensity_range,
+                triggers: entry.data.triggers?.length || 0,
+                blendable_emotions: entry.data.blendable_with?.length || 0
+              });
+              
+              // Visual feedback
+              const element = document.querySelector(`[data-emotion="${entry.data.reference_code}"]`);
+              if (element) {
+                element.classList.add('ring-2', 'ring-primary', 'ring-opacity-50');
+                setTimeout(() => {
+                  element.classList.remove('ring-2', 'ring-primary', 'ring-opacity-50');
+                }, 1500);
+              }
+            }}
+            data-emotion={entry.data.reference_code}
+          >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center">
-                <Badge className={`${getReferenceColor(entry.data.reference_code)} mr-3 font-roboto-mono`}>
+                <Badge className={`${getReferenceColor(entry.data.reference_code)} mr-3 font-roboto-mono text-xs`}>
                   {entry.data.reference_code}
                 </Badge>
-                <h3 className="font-semibold text-lg">{entry.family}</h3>
+                <h3 className="font-semibold text-lg text-primary">{entry.family}</h3>
               </div>
               <Badge className={getUniversalityColor(entry.data.cultural_universality)}>
                 Universality: {entry.data.cultural_universality}
