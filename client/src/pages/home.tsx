@@ -15,70 +15,70 @@ export default function Home() {
     <div className="min-h-screen bg-app-background">
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
-        <div className="container mx-auto px-4 py-6 bg-[#910000e8]">
+        <div className="container mx-auto px-4 py-4 sm:py-6 bg-[#910000e8]">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Brain className="text-2xl" />
-              <div>
-                <h1 className="text-2xl font-bold">Emotional Codex Companion</h1>
-                <p className="text-blue-100 text-sm">Functional Empathy System Development Tool</p>
+            <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+              <Brain className="text-xl sm:text-2xl flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg sm:text-2xl font-bold truncate">Emotional Codex Companion</h1>
+                <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">Functional Empathy System Development Tool</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm bg-blue-600 px-3 py-1 rounded-full">v2.1.0</span>
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+              <span className="text-xs sm:text-sm bg-blue-600 px-2 sm:px-3 py-1 rounded-full">v2.1.0</span>
               <button className="text-white hover:text-blue-200 transition-colors">
-                <Cog className="text-lg" />
+                <Cog className="text-base sm:text-lg" />
               </button>
             </div>
           </div>
         </div>
       </header>
       {/* Main Application */}
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="grid grid-cols-12 gap-6">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
+        <div className="grid grid-cols-12 gap-3 sm:gap-6">
           {/* Main Content Area */}
           <div className="col-span-12 lg:col-span-8">
             <Tabs defaultValue="input" className="space-y-6">
               <div className="surface-card rounded-lg shadow-md">
-                <TabsList className="grid w-full grid-cols-5 bg-transparent p-0 h-auto">
+                <TabsList className="flex w-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 bg-transparent p-0 h-auto">
                   <TabsTrigger 
                     value="input" 
-                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                    className="tab-button flex-shrink-0 px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
-                    <span className="flex items-center">
-                      Emotion Input
+                    <span className="flex items-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Emotion </span>Input
                     </span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="codex"
-                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                    className="tab-button flex-shrink-0 px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
-                    <span className="flex items-center">
-                      Codex Browser
+                    <span className="flex items-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Codex </span>Browser
                     </span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="manual"
-                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                    className="tab-button flex-shrink-0 px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
-                    <span className="flex items-center">
-                      Manual Entry
+                    <span className="flex items-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Manual </span>Entry
                     </span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="cip"
-                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                    className="tab-button flex-shrink-0 px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
-                    <span className="flex items-center">
-                      CIP Evaluator
+                    <span className="flex items-center whitespace-nowrap">
+                      CIP<span className="hidden sm:inline"> Evaluator</span>
                     </span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="export"
-                    className="tab-button px-6 py-4 text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
+                    className="tab-button flex-shrink-0 px-3 sm:px-6 py-4 text-xs sm:text-sm font-medium rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary"
                   >
-                    <span className="flex items-center">
-                      Export & Save
+                    <span className="flex items-center whitespace-nowrap">
+                      Export<span className="hidden sm:inline"> & Save</span>
                     </span>
                   </TabsTrigger>
                 </TabsList>
